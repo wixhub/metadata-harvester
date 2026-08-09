@@ -1,0 +1,32 @@
+<div class="explorer-container">
+  <nav><a routerLink="/">← Back to Dashboard</a></nav>
+  <h2>Repository Explorer (DSpace Items / Collections)</h2>
+
+  <div class="grid">
+    @for (item of datasets(); track item.id) {
+      <div class="card">
+        <h4>{{ item.title }}</h4>
+        <p><strong>Format:</strong> {{ item.format }}</p>
+        <p><strong>Records:</strong> {{ item.recordCount }}</p>
+        <p>
+          <strong>Status:</strong>
+          <span [class]="'status-' + item.status.toLowerCase()">{{ item.status }}</span>
+        </p>
+        @if (item.validationErrors && item.validationErrors.length > 0) {
+          <div class="error-box">
+            <small>Anomalies detected:</small>
+            <ul>
+              @for (err of item.validationErrors; track err) {
+                <li>
+                  <small>{{ err }}</small>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    } @empty {
+      <p class="empty-state">No repository metadata found.</p>
+    }
+  </div>
+</div>
