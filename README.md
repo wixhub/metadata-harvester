@@ -16,6 +16,10 @@ An enterprise-grade system designed to ingest, validate, and manage ecological m
 
 Currently, the application runs in an isolated sandbox environment. All processed metadata files and validation logs are securely stored locally within a dedicated PostgreSQL database (Neon), without transmitting data to external production repositories.
 
+## 🚀 Live Demo
+
+🔗 **[View Live Application on Cloudflare Pages](https://metadata-harvester.pages.dev)**
+
 ---
 
 ## 🏛️ Project Architecture
