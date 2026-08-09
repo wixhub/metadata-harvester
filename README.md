@@ -52,7 +52,7 @@ docker-compose up --build
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/wixhub/moverdm-explorer-web/issues).
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/wixhub/metadata-harvester/issues).
 
 ---
 
@@ -62,7 +62,7 @@ If you have any questions, suggestions, or feedback regarding this project, feel
 
 - **Author:** [@Rublin](https://github.com/wixhub)
 - **Telegram:** [@typeweb](https://t.me/typeweb)
-- **GitHub Repository:** [moverdm-explorer](https://github.com/wixhub/moverdm-explorer-web)
+- **GitHub Repository:** [moverdm-explorer](https://github.com/wixhub/metadata-harvester)
 
 ---
 
