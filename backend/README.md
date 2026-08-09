@@ -65,6 +65,8 @@ Once the application is running, you can access the interactive Swagger UI docum
 
 👉 http://localhost:8080/swagger-ui/index.html
 
+👉 https://metadata-harvester-backend.onrender.com/swagger-ui/index.html
+
 ## Deployment (Render)
 
 1. Create a new Web Service on Render pointing to your repository.
