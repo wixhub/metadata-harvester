@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = { "http://localhost:4200" })
 @Tag(name = "Ingestion API", description = "Endpoints for dataset upload, validation, and retrieval")
 public class IngestionController {
 
