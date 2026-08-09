@@ -1,0 +1,50 @@
+<div class="wizard-container">
+  <nav><a routerLink="/">← Back to Dashboard</a></nav>
+  <h2>Telemetry Ingestion Wizard</h2>
+  <p class="subtitle">
+    Upload Movebank XML, Darwin Core Archives (DwC-A), or JSON metadata schemas.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="wizard-form">
+    <div class="form-group">
+      <label for="format">Metadata Standard Format</label>
+      <select id="format" formControlName="format">
+        <option value="MOVEBANK_XML">Movebank XML Schema</option>
+        <option value="DWC_A">Darwin Core Archive (DwC-A)</option>
+        <option value="JSON_SCHEMA">Custom JSON Schema</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="targetCollection">DSpace Target Collection UUID</label>
+      <input
+        type="text"
+        id="targetCollection"
+        formControlName="targetCollection"
+        placeholder="e.g. 123456789/col-ecology-01"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="file">Payload File</label>
+      <input type="file" id="file" (change)="onFileSelected($event)" />
+    </div>
+
+    @if (uploadProgress() > 0) {
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="uploadProgress()"></div>
+        <span>{{ uploadProgress() }}% Uploaded & Validating</span>
+      </div>
+    }
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="form.invalid || !selectedFile() || uploading()"
+        class="btn-primary"
+      >
+        {{ uploading() ? 'Processing Pipeline...' : 'Run Ingestion & Validation' }}
+      </button>
+    </div>
+  </form>
+</div>
