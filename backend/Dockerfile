@@ -1,5 +1,5 @@
 # --- Build Stage ---
-FROM maven:3.9.6-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-21 AS buil
 WORKDIR /app
 
 # Copy pom.xml and source code
@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # --- Run Stage ---
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copy the built jar from the build stage
