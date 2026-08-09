@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://metadata-harvester-backend.onrender.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
