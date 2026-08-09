@@ -1,0 +1,471 @@
+/* Main dashboard wrapper container */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: inherit;
+}
+
+/* Header section containing title and action buttons */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+/* Container for dashboard title and sandbox status badge */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.title-row h2 {
+  margin: 0;
+}
+
+/* Sandbox mode indicator badge styling */
+.sandbox-badge {
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #f59e0b;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  letter-spacing: 0.02em;
+}
+
+/* Subtitle description text for researchers */
+.subtitle {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 4px;
+  max-width: 700px;
+}
+
+/* Action buttons bar layout */
+.actions-bar {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Compact and sleek button styles replacing full-width blocks */
+.btn-primary,
+.btn-secondary {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Primary call-to-action button styling */
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Secondary alternative action button styling */
+.btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* Disabled state styles for buttons while server is waking up */
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Informational guide card for scientists */
+.info-card {
+  display: flex;
+  gap: 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.info-icon {
+  font-size: 24px;
+}
+
+.info-content h4 {
+  margin: 0 0 4px 0;
+  color: #166534;
+  font-size: 16px;
+}
+
+.info-content p {
+  margin: 0 0 8px 0;
+  color: #15803d;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Project reference links container */
+.project-links {
+  font-size: 12px;
+  color: #166534;
+}
+
+.project-links a {
+  color: #2563eb;
+  text-decoration: underline;
+  margin-right: 12px;
+}
+
+/* Metrics summary cards grid layout */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+/* Individual metric card styling */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 8px 0 0 0;
+  color: #111827;
+}
+
+/* Status color modifiers for metrics */
+.metric-value.success {
+  color: #16a34a;
+}
+.metric-value.danger {
+  color: #dc2626;
+}
+
+.card-hint {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* Footer section with support info */
+.dashboard-footer {
+  margin-top: 40px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 20px;
+}
+
+.support-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.support-box p {
+  margin: 0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.support-btn {
+  background: #0f172a;
+  color: white;
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+}
+.support-btn:hover {
+  background: #1e293b;
+}
+
+/* Project metadata and author info credits in footer */
+.project-info-footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.project-info-footer a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.project-info-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Modern Clean Table Styles */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.data-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Explicit Column Widths to prevent overlapping */
+.col-id {
+  width: 25%;
+  font-family: monospace;
+  font-size: 12px;
+  color: #64748b;
+}
+.col-title {
+  width: 25%;
+}
+.col-format {
+  width: 15%;
+}
+.col-status {
+  width: 15%;
+}
+.col-records {
+  width: 10%;
+  text-align: center;
+}
+.col-date {
+  width: 10%;
+  white-space: nowrap;
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* Status Badges */
+.status-processed {
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.status-failed {
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.badge {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  color: #94a3b8;
+  padding: 24px !important;
+}
+
+/* L O A D E R */
+
+// Main container overlay or section
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  width: 100%;
+  padding: 32px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+// Inner wrapper for text and animation alignment
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  text-align: center;
+}
+
+// Text block styles
+.loader-text {
+  margin-bottom: 24px;
+
+  .main-msg {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+
+  .sub-msg {
+    font-size: 0.95rem;
+    color: #475569;
+    margin: 0 0 8px 0;
+    line-height: 1.5;
+
+    strong {
+      color: #0f172a;
+    }
+  }
+
+  .pulse-text {
+    color: #d97706;
+    font-weight: 500;
+    animation: text-pulse 1.5s infinite ease-in-out;
+  }
+
+  .thanks-msg {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+}
+
+// Spinner container bounds
+.animal-spinner {
+  position: relative;
+  width: 280px;
+  height: 110px;
+  margin: 0 auto;
+}
+
+// Base style for icons
+.track-icon {
+  position: absolute;
+  opacity: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  will-change: offset-distance, opacity, transform;
+}
+
+// Icon styles with locked 2D rotation
+.bird-print {
+  font-size: 80px;
+  color: #1e40af;
+  // Disable path tilt to keep the icon flat on screen
+  offset-rotate: 0deg;
+  // Back-and-forth animation with crisp direction switch at edges
+  animation: fly-flat-back-and-forth 4s infinite linear alternate;
+}
+
+// --- ANIMATION: FLAT 2D WAVE FLIGHT WITH SHARP TURNS ---
+@keyframes fly-flat-back-and-forth {
+  0% {
+    // Start from left to right (facing right -> scaleX(1))
+    offset-path: path('M 0,60 Q 70,10 140,60 T 280,60');
+    offset-distance: 0%;
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  70% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    // Reached right edge, flip horizontally to face left at the end of keyframe
+    offset-path: path('M 0,60 Q 70,10 140,60 T 280,60');
+    offset-distance: 100%;
+    transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes text-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.flying-bird {
+  animation-delay: 0s;
+}

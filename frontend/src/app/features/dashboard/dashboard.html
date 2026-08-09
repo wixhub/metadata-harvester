@@ -1,0 +1,176 @@
+<div class="dashboard-container">
+  <!-- Header with Title and Modern Action Bar -->
+  <div class="dashboard-header">
+    <div>
+      <div class="title-row">
+        <h2>Ecological Metadata Harvester Dashboard</h2>
+        <span class="sandbox-badge">🧪 Sandbox Mode</span>
+      </div>
+      <p class="subtitle">
+        Welcome! This portal allows researchers to ingest, validate, and manage ecological metadata
+        (such as Movebank XML and Darwin Core Archives) designed for institutional DSpace repository
+        integration.
+      </p>
+    </div>
+    <div class="actions-bar">
+      <button
+        routerLink="/ingest"
+        [disabled]="loading()"
+        [class.btn-disabled]="loading()"
+        class="btn-primary"
+      >
+        + New Ingestion Job
+      </button>
+      <button
+        routerLink="/explorer"
+        [disabled]="loading()"
+        [class.btn-disabled]="loading()"
+        class="btn-secondary"
+      >
+        Explore Repository
+      </button>
+    </div>
+  </div>
+
+  <!-- Informational Banner for Researchers -->
+  <div class="info-card">
+    <div class="info-icon">💡</div>
+    <div class="info-content">
+      <h4>What can you do here?</h4>
+      <p>
+        Use <strong>+ New Ingestion Job</strong> to upload new metadata schemas or telemetry files.
+        The system automatically validates formats against biological standards, extracts records,
+        and archives them. Check your recent activity below or explore stored items in the
+        repository.
+      </p>
+      <div class="project-links">
+        <span>🔗 Useful links: </span>
+        <a href="https://movebank.org" target="_blank">Movebank Standard</a>
+        <a href="https://dwc.tdwg.org" target="_blank">Darwin Core (DwC)</a>
+        <a href="https://dspace.org" target="_blank">DSpace Repository</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics Grid -->
+  <div class="metrics-grid">
+    <div class="card">
+      <h3>Total Datasets</h3>
+      <p class="metric-value">{{ datasets().length }}</p>
+      <span class="card-hint">All processed files</span>
+    </div>
+    <div class="card">
+      <h3>Successful Ingests</h3>
+      <p class="metric-value success">{{ successfulCount() }}</p>
+      <span class="card-hint">Ready in repository</span>
+    </div>
+    <div class="card">
+      <h3>Failed Validations</h3>
+      <p class="metric-value danger">{{ failedCount() }}</p>
+      <span class="card-hint">Require format check</span>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="recent-section">
+    @if (loading()) {
+      <!-- Cold start wake-up notice with dynamic countdown for scientists -->
+      <div class="loader-container">
+        <div class="loader-content">
+          <div class="loader-text">
+            <p class="main-msg">Loading the Recent Ingestion Activity...</p>
+            <p class="main-msg">Waking up the cloud server (Render free tier)...</p>
+
+            @if (wakeUpCountdown() > 0) {
+              <p class="sub-msg">
+                Please wait approximately <strong>{{ wakeUpCountdown() }} seconds</strong> for the
+                backend to spin up and connect to the database.
+              </p>
+            } @else {
+              <p class="sub-msg pulse-text">
+                Almost ready! The server is finalizing startup, please hold on...
+              </p>
+            }
+
+            <p class="thanks-msg">Thank you for your patience!</p>
+          </div>
+
+          <div class="animal-spinner">
+            <!-- Bird flying in a wave pattern from right to left -->
+            <div class="track-icon bird-print flying-bird">🎐</div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <h3>Recent Ingestion Activity</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-title">Title / File</th>
+            <th class="col-format">Format</th>
+            <th class="col-status">Status</th>
+            <th class="col-records">Records</th>
+            <th class="col-date">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of datasets(); track item.id) {
+            <tr>
+              <td class="col-id">
+                <code>{{ item.id }}</code>
+              </td>
+              <td class="col-title">
+                <strong>{{ item.title }}</strong>
+              </td>
+              <td class="col-format">
+                <span class="badge">{{ item.format }}</span>
+              </td>
+              <td class="col-status">
+                <span [class]="'status-' + item.status.toLowerCase()">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td class="col-records">{{ item.recordCount ?? '—' }}</td>
+              <td class="col-date">{{ item.uploadedAt | date: 'short' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">
+                No ingestion logs found. Start your first job above!
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- Support & Author Footer -->
+  <footer class="dashboard-footer">
+    <div class="support-box">
+      <p>
+        🛠️ Need custom metadata mapping, automated pipelines, or technical support for your
+        ecological project?
+      </p>
+      <a href="mailto:your.email@example.com" class="support-btn"
+        >Get Technical Support & Collaboration</a
+      >
+    </div>
+
+    <!-- Open Source Project & Author Credit Info -->
+    <div class="project-info-footer">
+      <p>
+        Open-source project available on GitHub:
+        <a href="https://github.com/wixhub/metadata-harvester" target="_blank"
+          >https://github.com/wixhub/metadata-harvester</a
+        >
+      </p>
+      <p>
+        Powered by Angular & Cloudflare Pages, Spring Boot & Render. Data streams provided by
+        Movebank.
+      </p>
+      <p>Developed by <a href="https://github.com/wixhub" target="_blank">@Rublin</a></p>
+    </div>
+  </footer>
+</div>
