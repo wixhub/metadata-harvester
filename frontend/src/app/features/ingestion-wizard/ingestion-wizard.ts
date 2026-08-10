@@ -20,6 +20,7 @@ export class IngestionWizard {
   uploading = signal<boolean>(false);
   uploadProgress = signal<number>(0);
   selectedFile = signal<File | null>(null);
+  errorMessage = signal<string | null>(null); // <--- Added error message signal
 
   form = this.fb.group({
     format: ['MOVEBANK_XML' as MetadataFormat, Validators.required],
@@ -30,41 +31,41 @@ export class IngestionWizard {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile.set(file);
+      this.errorMessage.set(null); // Clear previous error on new file selection
     }
   }
 
   onSubmit() {
-    // Validate form and ensure a file is selected before proceeding
     if (this.form.invalid || !this.selectedFile()) return;
 
-    // Set uploading state to true and reset progress
     this.uploading.set(true);
+    this.uploadProgress.set(0);
+    this.errorMessage.set(null); // Reset error state
 
-    // Construct the payload required for the ingestion API
     const payload = {
       format: this.form.value.format as MetadataFormat,
       file: this.selectedFile()!,
       targetCollection: this.form.value.targetCollection!,
     };
 
-    // Call the API service and handle HTTP progress/response events
     this.api.uploadDataset(payload).subscribe({
       next: (event) => {
-        // Track and update the file upload progress percentage
         if (event.type === HttpEventType.UploadProgress && event.total) {
           const percent = Math.round(100 * (event.loaded / event.total));
           this.uploadProgress.set(percent);
-        }
-        // Handle the final successful server response
-        else if (event.type === HttpEventType.Response) {
+        } else if (event.type === HttpEventType.Response) {
           this.uploading.set(false);
           this.router.navigate(['/dashboard']);
         }
       },
       error: (err: any) => {
-        // Handle server-side errors or pipeline failures
         this.uploading.set(false);
-        alert('Ingestion pipeline error or validation failure occurred: \n\n' + err.message);
+
+        // Extract clean error message sent from Spring Boot backend (or fallback)
+        const serverMessage = err.error?.message || err.error || err.message;
+        this.errorMessage.set(
+          serverMessage || 'Validation failed. Please check your dataset structure.',
+        );
       },
     });
   }
