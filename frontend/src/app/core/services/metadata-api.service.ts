@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { DatasetRecord, IngestionPayload } from '../models/metadata.model';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
