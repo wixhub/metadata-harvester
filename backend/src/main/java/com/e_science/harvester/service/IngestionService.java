@@ -15,18 +15,24 @@ public class IngestionService {
 
     private static final Logger LOGGER = Logger.getLogger(IngestionService.class.getName());
 
-    // Injecting the repository for database operations
     private final DatasetRepository datasetRepository;
+    private final DatasetValidator datasetValidator; // Declared validator
 
-    public IngestionService(DatasetRepository datasetRepository) {
+    // Injected validator via constructor
+    public IngestionService(DatasetRepository datasetRepository, DatasetValidator datasetValidator) {
         this.datasetRepository = datasetRepository;
+        this.datasetValidator = datasetValidator;
     }
 
     public String processIngestion(MultipartFile file) throws IOException {
+
+        // RUN ENTERPRISE VALIDATION FIRST
+        datasetValidator.validateDatasetFile(file);
+
         String content = new String(file.getBytes(), StandardCharsets.UTF_8);
         String filename = file.getOriginalFilename();
 
-        // 1. Format detection and initial validation
+        // Format detection and initial validation
         if (content.isEmpty()) {
             LOGGER.warning("Anomaly: Uploaded file is empty — " + filename);
             throw new IllegalArgumentException("File cannot be empty");
@@ -35,7 +41,7 @@ public class IngestionService {
         String format;
         int recordCount = 0;
 
-        // 2. Required fields check & format classification
+        // Required fields check & format classification
         if (filename != null && filename.endsWith(".xml")) {
             parseMovebankXml(content);
             format = "MOVEBANK_XML";
@@ -49,12 +55,12 @@ public class IngestionService {
             throw new IllegalArgumentException("Unsupported file format");
         }
 
-        // 3. Creating and saving the dataset entity to the database with format and
-        // record count
+        // Creating and saving the dataset entity to the database with format and record
+        // count
         Dataset dataset = new Dataset();
         dataset.setTitle(filename);
-        dataset.setFormat(format); // <--- Added format field
-        dataset.setRecordCount(Math.max(1, recordCount)); // <--- Added record count
+        dataset.setFormat(format);
+        dataset.setRecordCount(Math.max(1, recordCount));
         dataset.setDspaceItemId("item-" + UUID.randomUUID().toString());
         dataset.setStatus("PROCESSED");
         dataset.setDescription("Imported from uploaded file: " + filename);
