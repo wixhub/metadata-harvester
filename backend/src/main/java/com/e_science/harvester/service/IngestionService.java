@@ -32,19 +32,29 @@ public class IngestionService {
             throw new IllegalArgumentException("File cannot be empty");
         }
 
-        // 2. Required fields check (schema validation example)
+        String format;
+        int recordCount = 0;
+
+        // 2. Required fields check & format classification
         if (filename != null && filename.endsWith(".xml")) {
             parseMovebankXml(content);
+            format = "MOVEBANK_XML";
+            recordCount = (int) content.lines().count() / 2; // Approximate count logic
         } else if (filename != null && (filename.endsWith(".zip") || filename.endsWith(".json"))) {
             parseDarwinCoreOrJson(content);
+            format = filename.endsWith(".zip") ? "DWC_A" : "JSON_SCHEMA";
+            recordCount = (int) content.lines().count();
         } else {
             LOGGER.warning("Anomaly: Unsupported file format — " + filename);
             throw new IllegalArgumentException("Unsupported file format");
         }
 
-        // 3. Creating and saving the dataset entity to the database with updated fields
+        // 3. Creating and saving the dataset entity to the database with format and
+        // record count
         Dataset dataset = new Dataset();
         dataset.setTitle(filename);
+        dataset.setFormat(format); // <--- Added format field
+        dataset.setRecordCount(Math.max(1, recordCount)); // <--- Added record count
         dataset.setDspaceItemId("item-" + UUID.randomUUID().toString());
         dataset.setStatus("PROCESSED");
         dataset.setDescription("Imported from uploaded file: " + filename);

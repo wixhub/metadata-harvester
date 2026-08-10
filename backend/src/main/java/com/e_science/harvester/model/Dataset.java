@@ -27,6 +27,14 @@ public class Dataset {
     @Column(nullable = false, length = 50)
     private String status;
 
+    // Format of the ingested metadata (e.g. MOVEBANK_XML, DWC_A, JSON_SCHEMA)
+    @Column(length = 50)
+    private String format;
+
+    // Total count of telemetry records parsed and validated within the dataset
+    @Column(name = "record_count")
+    private Integer recordCount;
+
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
 
@@ -83,6 +91,22 @@ public class Dataset {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public Integer getRecordCount() {
+        return recordCount;
+    }
+
+    public void setRecordCount(Integer recordCount) {
+        this.recordCount = recordCount;
     }
 
     public OffsetDateTime getCreatedAt() {
