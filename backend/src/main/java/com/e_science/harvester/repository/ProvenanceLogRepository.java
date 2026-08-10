@@ -2,22 +2,27 @@ package com.e_science.harvester.repository;
 
 import com.e_science.harvester.model.ProvenanceLog;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Repository for managing ProvenanceLog entities.
  */
-@Repository
 public interface ProvenanceLogRepository extends JpaRepository<ProvenanceLog, Long> {
 
     /**
      * Find all logs associated with a specific dataset ID.
      * 
-     * @param datasetId the dataset UUID
+     * @param datasetId the dataset ID (Long)
      * @return List of provenance logs
      */
-    List<ProvenanceLog> findByDatasetId(UUID datasetId);
+    List<ProvenanceLog> findByDatasetId(Long datasetId);
+
+    /**
+     * Count logs by their severity level (e.g., 'ERROR' for failed validations).
+     * 
+     * @param logLevel the log level string (INFO, ERROR, etc.)
+     * @return count of matching logs
+     */
+    long countByLogLevel(String logLevel);
 }

@@ -15,7 +15,7 @@ public class ProvenanceLog {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dataset_id", nullable = false)
+    @JoinColumn(name = "dataset_id", nullable = true)
     private Dataset dataset;
 
     @Column(nullable = false, length = 100)
