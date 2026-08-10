@@ -132,7 +132,7 @@
                 </span>
               </td>
               <td class="col-records">{{ item.recordCount ?? '—' }}</td>
-              <td class="col-date">{{ item.uploadedAt | date: 'short' }}</td>
+              <td class="col-date">{{ item.updatedAt | date: 'short' }}</td>
             </tr>
           } @empty {
             <tr>

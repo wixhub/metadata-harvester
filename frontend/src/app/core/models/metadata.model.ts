@@ -7,7 +7,7 @@ export interface DatasetRecord {
   title: string;
   format: MetadataFormat;
   status: IngestionStatus;
-  uploadedAt: string;
+  updatedAt: string;
   recordCount: number;
   validationErrors?: string[];
 }
