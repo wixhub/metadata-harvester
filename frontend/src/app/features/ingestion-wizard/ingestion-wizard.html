@@ -30,7 +30,7 @@
       <input type="file" id="file" (change)="onFileSelected($event)" />
     </div>
 
-    @if (uploadProgress() > 0) {
+    @if (uploading() && uploadProgress() > 0) {
       <div class="progress-bar-container">
         <div class="progress-bar" [style.width.%]="uploadProgress()"></div>
         <span>{{ uploadProgress() }}% Uploaded & Validating</span>
