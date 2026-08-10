@@ -9,7 +9,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop # validate # update # JPA does not create tables itself, we trust Flyway for this
+      ddl-auto: validate # create-drop # update # JPA does not create tables itself, we trust Flyway for this
       show-sql: true
     properties:
       hibernate:
