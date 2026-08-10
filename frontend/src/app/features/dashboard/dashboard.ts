@@ -23,11 +23,12 @@ export class Dashboard implements OnInit {
   // Computed metrics for cards
   successfulCount = computed(() => this.datasets().filter((d) => d.status === 'PROCESSED').length);
 
-  failedCount = computed(() => this.datasets().filter((d) => d.status === 'FAILED').length);
+  failedValidationsCount = signal<number>(0);
 
   ngOnInit(): void {
     this.startWakeUpTimer();
     this.loadDatasets();
+    this.loadFailedValidationsCount();
   }
 
   // Starts a countdown timer matching Render's free tier cold start delay (~50 seconds)
@@ -54,6 +55,17 @@ export class Dashboard implements OnInit {
       error: (err) => {
         console.error('Failed to load datasets: \n\n', err);
         this.loading.set(false);
+      },
+    });
+  }
+
+  loadFailedValidationsCount() {
+    this.apiService.getFailedValidationsCount().subscribe({
+      next: (count) => {
+        this.failedValidationsCount.set(count);
+      },
+      error: (err) => {
+        console.error('Failed to load metrics', err);
       },
     });
   }

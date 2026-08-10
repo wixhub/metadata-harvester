@@ -33,4 +33,9 @@ export class MetadataApiService {
   getDatasetById(id: string): Observable<DatasetRecord> {
     return this.http.get<DatasetRecord>(`${this.baseUrl}/datasets/${id}`);
   }
+
+  // Add this method to fetch failed validations count
+  getFailedValidationsCount(): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/metrics/failed-validations`);
+  }
 }
