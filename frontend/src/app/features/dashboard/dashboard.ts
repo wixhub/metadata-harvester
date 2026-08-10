@@ -18,7 +18,7 @@ export class Dashboard implements OnInit {
   loading = signal<boolean>(true);
 
   // Countdown timer signal for Render free instance wake-up (in seconds)
-  wakeUpCountdown = signal<number>(50);
+  wakeUpCountdown = signal<number>(100);
 
   // Computed metrics for cards
   successfulCount = computed(() => this.datasets().filter((d) => d.status === 'PROCESSED').length);

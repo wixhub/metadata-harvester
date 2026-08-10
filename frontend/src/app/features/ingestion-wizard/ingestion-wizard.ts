@@ -60,6 +60,7 @@ export class IngestionWizard {
       },
       error: (err: any) => {
         this.uploading.set(false);
+        this.uploadProgress.set(0); // Reset progress bar on error
 
         // Extract clean error message sent from Spring Boot backend (or fallback)
         const serverMessage = err.error?.message || err.error || err.message;
