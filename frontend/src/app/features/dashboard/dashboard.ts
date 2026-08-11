@@ -18,7 +18,7 @@ export class Dashboard implements OnInit {
   loading = signal<boolean>(true);
 
   // Countdown timer signal for Render free instance wake-up (in seconds)
-  wakeUpCountdown = signal<number>(100);
+  wakeUpCountdown = signal<number>(150);
 
   // Computed metrics for cards
   successfulCount = computed(() => this.datasets().filter((d) => d.status === 'PROCESSED').length);
@@ -31,7 +31,7 @@ export class Dashboard implements OnInit {
     this.loadFailedValidationsCount();
   }
 
-  // Starts a countdown timer matching Render's free tier cold start delay (~50 seconds)
+  // Starts a countdown timer matching Render's free tier cold start delay (~150 seconds)
   private startWakeUpTimer(): void {
     const timerInterval = setInterval(() => {
       this.wakeUpCountdown.update((current) => {
