@@ -1,13 +1,13 @@
 # Ecological Metadata Harvester
 
-An enterprise-grade system designed to ingest, validate, and manage ecological metadata (such as **Movebank XML** and **Darwin Core Archives**) with future integration capabilities into institutional **DSpace** repositories.
+An enterprise-grade system designed to ingest, validate and manage ecological metadata such as **Movebank XML** and **Darwin Core Archives** with integration into institutional **DSpace** repositories.
 
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=flat&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Neon DB](https://img.shields.io/badge/Neon-Cloud_Postgres-00E599?style=flat&logo=neon&logoColor=black)](https://neon.tech/)
 [![Render](https://img.shields.io/badge/Render-Backend_Hosting-46E3B7?style=flat&logo=render&logoColor=black)](https://render.com/)
 
-[![Angular](https://img.shields.io/badge/Angular-18-DD0031?style=flat&logo=angular&logoColor=white)](https://angular.io/)
+[![Angular](https://img.shields.io/badge/Angular-22-DD0031?style=flat&logo=angular&logoColor=white)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Sandbox Mode](https://img.shields.io/badge/Mode-Sandbox-f59e0b?style=flat&logo=codesandbox&logoColor=white)](#-current-status-sandbox-mode)
@@ -26,19 +26,19 @@ Currently, the application runs in an isolated sandbox environment. All processe
 
 The project is split into two independent sub-projects:
 
-- **`backend/`** — Spring Boot REST API responsible for database management (Flyway, JPA), file validation pipelines, and data storage.
+- **`backend/`** — Spring Boot REST API responsible for database management (Flyway, JPA), file validation pipelines and data storage.
 
-- **`frontend/`** — Modern Angular (v18+) Single Page Application providing an administrative dashboard, upload wizards, and dataset explorers.
+- **`frontend/`** — Angular 22 Single Page Application providing an administrative dashboard, upload wizards and dataset explorers.
 
 ---
 
 ## 📚 Component-Specific Documentation
 
-For detailed guides on how to build, run, and configure each part of the system, please refer to their respective documentation:
+For detailed guides on how to build, run and configure each part of the system, please refer to their respective documentation:
 
-- ⚙️ **[Backend README](./backend/README.md)** — Setup guide, environment variables, database configuration, and API endpoints.
+- ⚙️ **[Backend README](./backend/README.md)** — Setup guide, environment variables, database configuration and API endpoints.
 
-- 💻 **[Frontend README](./frontend/README.md)** — Angular development server, dependencies, UI components, and build instructions.
+- 💻 **[Frontend README](./frontend/README.md)** — Angular development server, dependencies, UI components and build instructions.
 
 ---
 
