@@ -18,6 +18,10 @@ public class Dataset {
     @Column(name = "dspace_item_id", unique = true, length = 255)
     private String dspaceItemId;
 
+    // This field for DSpace target collection ID used in RealDSpaceService
+    @Column(name = "dspace_collection_id", length = 255)
+    private String dspaceCollectionId;
+
     @Column(nullable = false, length = 512)
     private String title;
 
@@ -67,6 +71,14 @@ public class Dataset {
 
     public void setDspaceItemId(String dspaceItemId) {
         this.dspaceItemId = dspaceItemId;
+    }
+
+    public String getDspaceCollectionId() {
+        return dspaceCollectionId;
+    }
+
+    public void setDspaceCollectionId(String dspaceCollectionId) {
+        this.dspaceCollectionId = dspaceCollectionId;
     }
 
     public String getTitle() {

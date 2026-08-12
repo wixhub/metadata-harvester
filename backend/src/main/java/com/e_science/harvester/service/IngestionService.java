@@ -23,12 +23,12 @@ public class IngestionService {
     private final DatasetRepository datasetRepository;
     private final ProvenanceLogRepository provenanceLogRepository;
     private final DatasetValidator datasetValidator;
-    private final DSpaceService dspaceService; // <--- 1. Inject DSpaceService
+    private final DSpaceService dspaceService; // Inject DSpaceService
 
     public IngestionService(DatasetRepository datasetRepository,
             ProvenanceLogRepository provenanceLogRepository,
             DatasetValidator datasetValidator,
-            DSpaceService dspaceService) { // <--- 2. Add to constructor
+            DSpaceService dspaceService) {
         this.datasetRepository = datasetRepository;
         this.provenanceLogRepository = provenanceLogRepository;
         this.datasetValidator = datasetValidator;
