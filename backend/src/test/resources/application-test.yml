@@ -1,0 +1,36 @@
+# =====================================================================
+# Test Configuration Profile
+# =====================================================================
+
+server:
+  port: 0 # Random port for tests to avoid conflicts if running parallel servers
+
+spring:
+  datasource:
+    # Use H2 in-memory database for fast and isolated tests
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      # Recreate database schema automatically for every test run
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        # Use H2 dialect for compatibility in tests
+        dialect: org.hibernate.dialect.H2Dialect
+
+  flyway:
+    # Disable Flyway for tests if H2 handles schema via ddl-auto,
+    # or enable it if you test real migration scripts
+    enabled: false
+
+# DSpace REST API Integration (Mocked or test endpoints)
+dspace:
+  api:
+    # Point to a mock server or use a dummy URL during tests
+    base-url: http://localhost:8089/server/api
+    token: test-dspace-token
