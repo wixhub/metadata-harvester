@@ -7,7 +7,7 @@
         <span class="sandbox-badge">🧪 Sandbox Mode</span>
       </div>
       <p class="subtitle">
-        Welcome! This portal allows researchers to ingest, validate, and manage ecological metadata
+        Welcome! This portal allows researchers to ingest, validate and manage ecological metadata
         (such as Movebank XML and Darwin Core Archives) designed for institutional DSpace repository
         integration.
       </p>
@@ -150,13 +150,20 @@
   <footer class="dashboard-footer">
     <div class="support-box">
       <p>
-        🛠️ Need custom metadata mapping, automated pipelines, or technical support for your
+        🛠️ Need custom metadata mapping, automated pipelines or technical support for your
         ecological project?
       </p>
-      <a href="mailto:your.email@example.com" class="support-btn"
-        >Get Technical Support & Collaboration</a
-      >
+      <a href="#" id="contact-link" class="support-btn">Get Technical Support & Collaboration</a>
     </div>
+
+    <script>
+      document.getElementById('contact-link').addEventListener('click', function (e) {
+        e.preventDefault();
+        const user = 'rublin';
+        const domain = 'gmx.de';
+        window.location.href = 'mailto:' + user + '@' + domain;
+      });
+    </script>
 
     <!-- Open Source Project & Author Credit Info -->
     <div class="project-info-footer">
