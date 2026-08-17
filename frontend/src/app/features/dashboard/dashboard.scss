@@ -218,6 +218,7 @@
 }
 .support-btn:hover {
   background: #1e293b;
+  cursor: pointer;
 }
 
 /* Project metadata and author info credits in footer */
@@ -468,4 +469,48 @@
 
 .flying-bird {
   animation-delay: 0s;
+}
+
+.support-wrapper {
+  // Establish positioning context for the absolute tooltip
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-notification {
+  // Position it neatly right below the button, centered or aligned to the left
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+
+  // Layout and sizing
+  white-space: nowrap;
+  padding: 6px 12px;
+
+  // Typography
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ffffff;
+
+  // Theme styling (dark mode / research platform aesthetic)
+  background-color: rgba(94, 97, 103, 0.95);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  // Entrance animation
+  animation: fadeInOut 0.25s ease-in-out;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

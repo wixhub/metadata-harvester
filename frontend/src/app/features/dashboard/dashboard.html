@@ -153,9 +153,14 @@
         🛠️ Need custom metadata mapping, automated pipelines or technical support for your
         ecological project?
       </p>
-      <a (click)="onContactClick($event)" class="support-btn"
-        >Get Technical Support & Collaboration</a
-      >
+      <div class="support-wrapper">
+        <a (click)="onContactClick($event)" class="support-btn"
+          >Get Technical Support & Collaboration</a
+        >
+        @if (copied()) {
+          <span class="tooltip-notification">Email copied to clipboard!</span>
+        }
+      </div>
     </div>
 
     <!-- Open Source Project & Author Credit Info -->
