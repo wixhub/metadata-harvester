@@ -153,17 +153,8 @@
         🛠️ Need custom metadata mapping, automated pipelines or technical support for your
         ecological project?
       </p>
-      <a href="#" id="contact-link" class="support-btn">Get Technical Support & Collaboration</a>
+      <a href="#" (click)="supportMail.openMail($event)" class="support-btn">Get Technical Support & Collaboration</a>
     </div>
-
-    <script>
-      document.getElementById('contact-link').addEventListener('click', function (e) {
-        e.preventDefault();
-        const user = 'rublin';
-        const domain = 'gmx.de';
-        window.location.href = 'mailto:' + user + '@' + domain;
-      });
-    </script>
 
     <!-- Open Source Project & Author Credit Info -->
     <div class="project-info-footer">

@@ -3,6 +3,7 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetadataApiService } from '../../core/services/metadata-api.service';
 import { DatasetRecord } from '../../core/models/metadata.model';
+import { SupportMailService } from '../../core/services/support-mail.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,8 @@ export class Dashboard implements OnInit {
   successfulCount = computed(() => this.datasets().filter((d) => d.status === 'PROCESSED').length);
 
   failedValidationsCount = signal<number>(0);
+
+  constructor(public supportMail: SupportMailService) {}
 
   ngOnInit(): void {
     this.startWakeUpTimer();
