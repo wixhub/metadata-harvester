@@ -15,26 +15,33 @@ describe('SupportMailService', () => {
     expect(service).toBeTruthy();
   });
 
-  // Test to check if openMail prevents default action and sets window location correctly
-  it('should prevent default event and set window location to mailto', () => {
-    // Mock the Event object using global vi
+  // Test to check if handleContact prevents default action, copies to clipboard, and sets window location
+  it('should prevent default event, copy email to clipboard, and set window location to mailto', async () => {
+    // Mock the Event object using Vitest spy
     const mockEvent = {
       preventDefault: vi.fn(),
     } as unknown as Event;
 
-    // Store original location to restore it later
+    // Mock navigator.clipboard.writeText safely for Vitest / JSDOM environment
+    if (!navigator.clipboard) {
+      // @ts-ignore
+      navigator.clipboard = { writeText: vi.fn().mockResolvedValue(undefined) };
+    } else {
+      vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined);
+    }
+
     const originalLocation = window.location.href;
 
-    // Call the service method
-    service.openMail(mockEvent);
+    // Call the asynchronous service method
+    const success = await service.handleContact(mockEvent);
 
-    // Assert that preventDefault was called to stop the default link behavior
+    // Assertions
+    expect(success).toBe(true);
     expect(mockEvent.preventDefault).toHaveBeenCalled();
-
-    // Assert that the window location was correctly updated with the obfuscated email
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('rublin@gmx.de');
     expect(window.location.href).toBe('mailto:rublin@gmx.de');
 
-    // Restore original location to avoid side effects in other tests
+    // Restore original location to avoid side effects
     window.location.href = originalLocation;
   });
 });

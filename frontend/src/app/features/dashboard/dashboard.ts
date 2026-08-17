@@ -26,7 +26,23 @@ export class Dashboard implements OnInit {
 
   failedValidationsCount = signal<number>(0);
 
-  constructor(public supportMail: SupportMailService) {}
+  private mailService = inject(SupportMailService);
+
+  // Signal to manage UI notification state
+  public copied = signal<boolean>(false);
+
+  public async onContactClick(event: Event): Promise<void> {
+    const success = await this.mailService.handleContact(event);
+
+    if (success) {
+      this.copied.set(true);
+
+      // Hide the notification after 3 seconds
+      setTimeout(() => {
+        this.copied.set(false);
+      }, 3000);
+    }
+  }
 
   ngOnInit(): void {
     this.startWakeUpTimer();
