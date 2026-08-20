@@ -10,7 +10,7 @@ Develop a dedicated service (e.g., `DspaceIntegrationService`) to transmit valid
 
 - **Configure Secure Credentials:**
 
-Set up required environment variables and properties in `application.yml` for production access, including the DSpace REST API endpoint URL, administrator credentials or bearer tokens, and the target collection UUID.
+Set up required environment variables and properties in `application.yml` for production access, including the DSpace REST API endpoint URL, administrator credentials or bearer tokens and the target collection UUID.
 
 - **Link Local Records with DSpace Entities:**
 

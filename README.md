@@ -52,7 +52,7 @@ docker-compose up --build
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/wixhub/metadata-harvester/issues).
+Contributions, issues and feature requests are welcome! Feel free to check the [issues page](https://github.com/wixhub/metadata-harvester/issues).
 
 ---
 
