@@ -1,6 +1,6 @@
 # Ecological Metadata Harvester - Backend
 
-Enterprise-grade backend service for scientific data pipeline and metadata repository system (integrating with Movebank, Darwin Core standards, and DSpace repository), built with Java 21, Spring Boot, WebFlux, and PostgreSQL.
+Enterprise-grade backend service for scientific data pipeline and metadata repository system (integrating with Movebank, Darwin Core standards and DSpace repository), built with Java 21, Spring Boot, WebFlux and PostgreSQL.
 
 ---
 
@@ -76,6 +76,8 @@ Once the application is running, you can access the interactive Swagger UI docum
 👉 http://localhost:8080/swagger-ui/index.html
 
 👉 https://metadata-harvester-backend.onrender.com/swagger-ui/index.html
+
+![Cron job status](https://api.cron-job.org/jobs/8301153/c57997217bc5800b/status-1.svg)
 
 ## Deployment (Render)
 
