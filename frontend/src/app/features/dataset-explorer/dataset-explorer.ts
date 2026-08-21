@@ -1,20 +1,16 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetadataApiService } from '../../core/services/metadata-api.service';
-import { DatasetRecord } from '../../core/models/metadata.model';
 
 @Component({
   selector: 'app-dataset-explorer',
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './dataset-explorer.html',
   styleUrl: './dataset-explorer.scss',
 })
-export class DatasetExplorer implements OnInit {
+export class DatasetExplorer {
   private api = inject(MetadataApiService);
-  datasets = signal<DatasetRecord[]>([]);
 
-  ngOnInit() {
-    this.api.getDatasets().subscribe((data) => this.datasets.set(data));
-  }
+  // Bound directly to the service's httpResource value
+  datasets = this.api.datasetsResource.value;
 }
