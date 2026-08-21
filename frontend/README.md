@@ -1,6 +1,6 @@
 # Ecological Metadata Harvester & Ingestion Gateway (Frontend)
 
-An enterprise-grade, modern Angular administrative dashboard and ingestion wizard designed to interface with the Ecological Metadata Harvester & Ingestion Gateway backend (Spring Boot, PostgreSQL, and DSpace-aligned repositories).
+An enterprise-grade, modern Angular administrative dashboard and ingestion wizard designed to interface with the Ecological Metadata Harvester & Ingestion Gateway backend (Spring Boot, PostgreSQL and DSpace-aligned repositories).
 
 ---
 
@@ -22,11 +22,11 @@ An enterprise-grade, modern Angular administrative dashboard and ingestion wizar
 
 ## 🌟 Core Features
 
-Dashboard & Metrics: Real-time visibility tracking total datasets, successful metadata harvests, and anomaly/validation failures.
+Dashboard & Metrics: Real-time visibility tracking total datasets, successful metadata harvests and anomaly/validation failures.
 
-Telemetry Ingestion Wizard: Supports multi-format scientific file uploads including Movebank XML, Darwin Core Archives (DwC-A), and JSON Schemas, mapping them directly to target DSpace collections.
+Telemetry Ingestion Wizard: Supports multi-format scientific file uploads including Movebank XML, Darwin Core Archives (DwC-A) and JSON Schemas, mapping them directly to target DSpace collections.
 
-Repository Explorer: Inspect harvested metadata records, view structural status, and diagnose error payloads.
+Repository Explorer: Inspect harvested metadata records, view structural status and diagnose error payloads.
 
 ## 📁 Project Architecture
 

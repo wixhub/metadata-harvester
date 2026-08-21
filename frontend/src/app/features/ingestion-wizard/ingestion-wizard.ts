@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
@@ -8,7 +7,7 @@ import { MetadataFormat } from '../../core/models/metadata.model';
 
 @Component({
   selector: 'app-ingestion-wizard',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './ingestion-wizard.html',
   styleUrl: './ingestion-wizard.scss',
 })
@@ -20,7 +19,7 @@ export class IngestionWizard {
   uploading = signal<boolean>(false);
   uploadProgress = signal<number>(0);
   selectedFile = signal<File | null>(null);
-  errorMessage = signal<string | null>(null); // <--- Added error message signal
+  errorMessage = signal<string | null>(null);
 
   form = this.fb.group({
     format: ['MOVEBANK_XML' as MetadataFormat, Validators.required],
@@ -31,7 +30,7 @@ export class IngestionWizard {
     const file = event.target.files[0];
     if (file) {
       this.selectedFile.set(file);
-      this.errorMessage.set(null); // Clear previous error on new file selection
+      this.errorMessage.set(null);
     }
   }
 
@@ -40,7 +39,7 @@ export class IngestionWizard {
 
     this.uploading.set(true);
     this.uploadProgress.set(0);
-    this.errorMessage.set(null); // Reset error state
+    this.errorMessage.set(null);
 
     const payload = {
       format: this.form.value.format as MetadataFormat,
@@ -55,14 +54,19 @@ export class IngestionWizard {
           this.uploadProgress.set(percent);
         } else if (event.type === HttpEventType.Response) {
           this.uploading.set(false);
+
+          // Refresh resources and redirect on success
+          this.api.refresh();
           this.router.navigate(['/dashboard']);
         }
       },
       error: (err: any) => {
         this.uploading.set(false);
-        this.uploadProgress.set(0); // Reset progress bar on error
+        this.uploadProgress.set(0);
 
-        // Extract clean error message sent from Spring Boot backend (or fallback)
+        // Refresh resources even on error so metrics (like failed validations count) update immediately
+        this.api.refresh();
+
         const serverMessage = err.error?.message || err.error || err.message;
         this.errorMessage.set(
           serverMessage || 'Validation failed. Please check your dataset structure.',
