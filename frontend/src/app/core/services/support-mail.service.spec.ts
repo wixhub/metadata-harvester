@@ -5,43 +5,68 @@ describe('SupportMailService', () => {
   let service: SupportMailService;
 
   beforeEach(() => {
-    // Configure the testing module and inject the service before each test
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [SupportMailService],
+    });
+
     service = TestBed.inject(SupportMailService);
+
+    // Mock clipboard API since it is not natively implemented in JSDOM / Node test environment
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: vi.fn().mockResolvedValue(undefined),
+      },
+    });
   });
 
-  // Test to verify that the service is successfully created
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  // Test to check if handleContact prevents default action, copies to clipboard, and sets window location
-  it('should prevent default event, copy email to clipboard, and set window location to mailto', async () => {
-    // Mock the Event object using Vitest spy
-    const mockEvent = {
-      preventDefault: vi.fn(),
-    } as unknown as Event;
+  it('should assemble and return the correct email address', () => {
+    const email = service.getEmail();
+    expect(email).toBe('rublin@gmx.de');
+  });
 
-    // Mock navigator.clipboard.writeText safely for Vitest / JSDOM environment
-    if (!navigator.clipboard) {
-      // @ts-ignore
-      navigator.clipboard = { writeText: vi.fn().mockResolvedValue(undefined) };
-    } else {
-      vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined);
-    }
+  it('should copy email to clipboard and set window location on handleContact', async () => {
+    const mockEvent = new Event('click');
+    vi.spyOn(mockEvent, 'preventDefault');
 
-    const originalLocation = window.location.href;
+    // Safely mock window.location.href assignment using Object.defineProperty
+    let assignedHref = '';
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      configurable: true,
+      value: {
+        set href(val: string) {
+          assignedHref = val;
+        },
+        get href() {
+          return assignedHref;
+        },
+      },
+    });
 
-    // Call the asynchronous service method
-    const success = await service.handleContact(mockEvent);
+    const result = await service.handleContact(mockEvent);
 
-    // Assertions
-    expect(success).toBe(true);
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('rublin@gmx.de');
-    expect(window.location.href).toBe('mailto:rublin@gmx.de');
+    expect(assignedHref).toBe('mailto:rublin@gmx.de');
+    expect(result).toBe(true);
+  });
 
-    // Restore original location to avoid side effects
-    window.location.href = originalLocation;
+  it('should handle clipboard write failures gracefully', async () => {
+    const mockEvent = new Event('click');
+
+    // Simulate a rejected clipboard write promise
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValueOnce(new Error('Clipboard error'));
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const result = await service.handleContact(mockEvent);
+
+    expect(consoleSpy).toHaveBeenCalled();
+    expect(result).toBe(false);
+
+    consoleSpy.mockRestore();
   });
 });

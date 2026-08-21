@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class SupportMailService {
   // Obfuscated email parts to prevent spam harvesting by simple bots
   private readonly user = 'rublin';
