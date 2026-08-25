@@ -1,13 +1,11 @@
 <div class="wizard-container">
   <nav><a routerLink="/">← Back to Dashboard</a></nav>
   <h2>Telemetry Ingestion Wizard</h2>
-  <p class="subtitle">
-    Upload Movebank XML, Darwin Core Archives (DwC-A), or JSON metadata schemas.
-  </p>
+  <p class="subtitle">Upload Movebank XML, Darwin Core Archives (DwC-A) or JSON metadata schemas</p>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="wizard-form">
     <div class="form-group">
-      <label for="format">Metadata Standard Format</label>
+      <label for="format">Metadata Standard Format (optional)</label>
       <select id="format" formControlName="format">
         <option value="MOVEBANK_XML">Movebank XML Schema</option>
         <option value="DWC_A">Darwin Core Archive (DwC-A)</option>
@@ -16,7 +14,7 @@
     </div>
 
     <div class="form-group">
-      <label for="targetCollection">DSpace Target Collection UUID</label>
+      <label for="targetCollection">DSpace Target Collection UUID (optional)</label>
       <input
         type="text"
         id="targetCollection"
@@ -26,8 +24,21 @@
     </div>
 
     <div class="form-group">
-      <label for="file">Payload File</label>
-      <input type="file" id="file" (change)="onFileSelected($event)" />
+      <label for="file">Payload File (required)</label>
+
+      <label for="file" class="file-drop-zone">
+        <span class="file-drop-text">
+          @if (selectedFile()) {
+            <strong>Selected:</strong> {{ selectedFile()?.name }}
+            <span class="file-subtitle">(сlick to select another file)</span>
+          } @else {
+            <span class="file-choose-btn">Choose a file</span>
+            <span class="file-subtitle">or drag it here...</span>
+          }
+        </span>
+      </label>
+
+      <input type="file" id="file" (change)="onFileSelected($event)" style="display: none" />
     </div>
 
     @if (uploading() && uploadProgress() > 0) {

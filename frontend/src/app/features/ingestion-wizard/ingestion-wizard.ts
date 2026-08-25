@@ -22,8 +22,8 @@ export class IngestionWizard {
   errorMessage = signal<string | null>(null);
 
   form = this.fb.group({
-    format: ['MOVEBANK_XML' as MetadataFormat, Validators.required],
-    targetCollection: ['', Validators.required],
+    format: ['MOVEBANK_XML' as MetadataFormat],
+    targetCollection: [''],
   });
 
   onFileSelected(event: any) {
@@ -31,6 +31,15 @@ export class IngestionWizard {
     if (file) {
       this.selectedFile.set(file);
       this.errorMessage.set(null);
+
+      const name = file.name.toLowerCase();
+      if (name.includes('movebank') || name.endsWith('.xml')) {
+        this.form.patchValue({ format: 'MOVEBANK_XML' });
+      } else if (name.includes('dwc') || name.endsWith('.zip')) {
+        this.form.patchValue({ format: 'DWC_A' });
+      } else if (name.includes('eml')) {
+        this.form.patchValue({ format: 'JSON_SCHEMA' });
+      }
     }
   }
 
