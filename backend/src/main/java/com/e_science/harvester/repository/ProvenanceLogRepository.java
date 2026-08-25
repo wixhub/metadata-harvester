@@ -25,4 +25,13 @@ public interface ProvenanceLogRepository extends JpaRepository<ProvenanceLog, Lo
      * @return count of matching logs
      */
     long countByLogLevel(String logLevel);
+
+    /**
+     * A list of logs filtered by their log level 'ERROR'
+     * 
+     * @param logLevel the log level string ERROR
+     * @return a list of matching logs
+     */
+    List<ProvenanceLog> findByLogLevel(String logLevel);
+
 }
