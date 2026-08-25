@@ -26,6 +26,13 @@ export class Dashboard implements OnInit {
   // Failed validations count bound directly to the service resource
   failedValidationsCount = this.apiService.failedValidationsResource.value;
 
+  // Total datasets = Successful + Failed (или длина массива datasets, если туда попадают все)
+  totalDatasetsCount = computed(() => {
+    const success = this.successfulCount();
+    const failed = this.failedValidationsCount() ?? 0;
+    return success + failed;
+  });
+
   private mailService = inject(SupportMailService);
 
   // Signal to manage UI notification state

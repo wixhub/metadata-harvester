@@ -7,8 +7,8 @@
         <span class="sandbox-badge">🧪 Sandbox Mode</span>
       </div>
       <p class="subtitle">
-        Welcome! This portal allows researchers to ingest, validate and manage ecological metadata
-        (such as Movebank XML and Darwin Core Archives) designed for institutional DSpace repository
+        Welcome! This portal allows researchers to ingest, validate and manage ecological metadata -
+        such as Movebank XML and Darwin Core Archives - designed for institutional DSpace repository
         integration.
       </p>
     </div>
@@ -36,14 +36,40 @@
   <div class="info-card">
     <div class="info-icon">💡</div>
     <div class="info-content">
-      <h4>What can you do here?</h4>
+      <h4>How to validate your metadata & Custom DSpace Integration</h4>
       <p>
-        Use <strong>+ New Ingestion Job</strong> to upload new metadata schemas or telemetry files.
-        The system automatically validates formats against biological standards, extracts records,
-        and archives them. Check your recent activity below or explore stored items in the
-        repository.
+        <strong>Step-by-step guide:</strong>
       </p>
-      <div class="project-links">
+      <ol style="margin: 4px 0 8px 20px; padding: 0">
+        <li>Click <strong>+ New Ingestion Job</strong> in the top right corner.</li>
+        <li>
+          Upload your ecological metadata file (Movebank XML, DwC-A zip, etc.). The format can be
+          auto-detected!
+        </li>
+        <li>
+          The Java backend on Render instantly parses and validates your file. If there's an error,
+          you will see it immediately on a red alert banner before finalizing.
+        </li>
+        <li>
+          Once valid, check the live status in the table below: <code>PROCESSED</code> means ready
+          for DSpace.
+        </li>
+      </ol>
+      <p style="font-size: 0.9em; color: #555; margin-top: 6px">
+        <em
+          >Note: Currently running in Sandbox Mode. Need custom DSpace OAuth/REST integration for
+          your institution?
+          <!-- Wrapper for the mail button and its popup tooltip -->
+          <div class="support-btn-wrapper">
+            <a (click)="onContactClick($event)" class="contact">Contact us!</a>
+
+            @if (copied()) {
+              <span class="tooltip-notification">Email copied to clipboard!</span>
+            }
+          </div></em
+        >
+      </p>
+      <div class="project-links" style="margin-top: 8px">
         <span>🔗 Useful links: </span>
         <a href="https://movebank.org" target="_blank">Movebank Standard</a>
         <a href="https://dwc.tdwg.org" target="_blank">Darwin Core (DwC)</a>
@@ -56,7 +82,7 @@
   <div class="metrics-grid">
     <div class="card">
       <h3>Total Datasets</h3>
-      <p class="metric-value">{{ datasets().length }}</p>
+      <p class="metric-value">{{ totalDatasetsCount() }}</p>
       <span class="card-hint">All processed files</span>
     </div>
     <div class="card">
@@ -148,34 +174,37 @@
 
   <!-- Support & Author Footer -->
   <footer class="dashboard-footer">
-    <div class="support-box">
-      <p>
-        🛠️ Need custom metadata mapping, automated pipelines or technical support for your
-        ecological project?
-      </p>
-      <div class="support-wrapper">
-        <a (click)="onContactClick($event)" class="support-btn"
-          >Get Technical Support & Collaboration</a
-        >
-        @if (copied()) {
-          <span class="tooltip-notification">Email copied to clipboard!</span>
-        }
-      </div>
-    </div>
-
-    <!-- Open Source Project & Author Credit Info -->
+    <!-- Open Source & Data Source Info -->
     <div class="project-info-footer">
       <p>
-        Open-source project available on GitHub:
-        <a href="https://github.com/wixhub/metadata-harvester" target="_blank"
-          >https://github.com/wixhub/metadata-harvester</a
-        >
+        Open-source project available on
+        <a href="https://github.com/wixhub/metadata-harvester" target="_blank">GitHub</a>
+        | Data streams provided by <a href="https://movebank.org" target="_blank">Movebank</a>
       </p>
       <p>
-        Powered by Angular & Cloudflare Pages, Spring Boot & Render. Data streams provided by
-        Movebank.
+        Powered by Angular & Cloudflare Pages, Spring Boot & Render. Developed by
+        <a href="https://github.com/wixhub" target="_blank">@Rublin</a>
       </p>
-      <p>Developed by <a href="https://github.com/wixhub" target="_blank">@Rublin</a></p>
+    </div>
+
+    <!-- Support & Contact Box -->
+    <div class="support-box">
+      <div class="support-row">
+        <p class="support-text">
+          🛠️ Need custom metadata mapping, automated pipelines or technical support for your
+          ecological project?
+        </p>
+        <div class="support-actions">
+          <!-- Wrapper for the mail button and its popup tooltip -->
+          <div class="support-btn-wrapper">
+            <a (click)="onContactClick($event)" class="support-btn">Send email</a>
+
+            @if (copied()) {
+              <span class="tooltip-notification">Email copied to clipboard!</span>
+            }
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 </div>
