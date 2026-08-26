@@ -1,4 +1,21 @@
-// Global Variables & Resets
+// Include theming for Angular Material with `mat.theme()` (Material 3)
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+// Global Variables & Custom Tokens
 $font-stack:
   system-ui,
   -apple-system,
@@ -11,14 +28,15 @@ $text-main: #2d3748;
 $text-muted: #718096;
 
 body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface, #f7fafc);
+  color: var(--mat-sys-on-surface, $text-main);
   font-family: $font-stack;
-  background-color: #f7fafc;
-  color: $text-main;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
-// Global Layout & Typography
 h2 {
   color: #1a202c;
   margin-top: 0;
@@ -28,29 +46,30 @@ nav a {
   color: $primary-color;
   text-decoration: none;
   font-weight: 500;
-
   &:hover {
     text-decoration: underline;
   }
 }
 
 // Global Buttons
+.btn-primary,
+.btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  border: none;
+}
+
 .btn-primary {
   background: $primary-color;
   color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
   width: 100%;
-  transition: background 0.2s ease;
-
   &:hover:not(:disabled) {
     background: $primary-hover;
   }
-
   &:disabled {
     background: #cbd5e0;
     cursor: not-allowed;
@@ -60,18 +79,13 @@ nav a {
 .btn-secondary {
   background: #edf2f7;
   color: $text-main;
-  padding: 0.75rem 1.5rem;
   border: 1px solid $border-color;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-
   &:hover {
     background: #e2e8f0;
   }
 }
 
-// Global Status Utilities
+// Global Status & Badges
 .status-success {
   color: #38a169;
   font-weight: bold;
@@ -84,4 +98,42 @@ nav a {
 .status-pending {
   color: #d69e2e;
   font-weight: bold;
+}
+
+.status-processed {
+  color: #16a34a;
+  background: #dcfce7;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.status-error {
+  color: #dc2626;
+  background: #fee2e2;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.badge {
+  background: #e2e8f0;
+  color: #334155;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+// Global Animations
+@keyframes text-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
