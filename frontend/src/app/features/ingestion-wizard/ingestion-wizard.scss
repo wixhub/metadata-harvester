@@ -1,9 +1,5 @@
-// ==========================================
-// Ingestion Wizard Styles
-// ==========================================
-
 @use 'sass:color';
-@use '../../../styles' as *; // Adjust the path to your global styles file if needed
+@use '../../../styles' as *;
 
 .wizard-container {
   max-width: 600px;
@@ -17,7 +13,6 @@
   nav {
     margin-bottom: 1rem;
   }
-
   h2 {
     margin: 0 0 0.5rem 0;
     color: $text-main;
@@ -40,12 +35,6 @@
       font-size: 0.95rem;
       margin-bottom: 0.5rem;
       color: $text-main;
-
-      /* Style for required field indicator */
-      .required-mark {
-        color: #e53e3e;
-        margin-left: 2px;
-      }
     }
 
     select,
@@ -54,7 +43,6 @@
       padding: 0.75rem 1rem;
       border: 1px solid $border-color;
       border-radius: 8px;
-      box-sizing: border-box;
       font-size: 0.95rem;
       background: $light-bg;
       color: $text-main;
@@ -63,11 +51,9 @@
       &::placeholder {
         color: $text-muted;
       }
-
       &:hover {
         border-color: color.adjust($border-color, $lightness: -10%);
       }
-
       &:focus {
         outline: none;
         background: #fff;
@@ -76,20 +62,17 @@
       }
     }
 
-    /* Hide standard ugly file input */
     input[type='file'] {
       display: none;
     }
   }
 }
 
-/* Custom styled file drop zone with equal padding and top button layout */
 .file-drop-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Equal vertical and horizontal padding for symmetry */
   padding: 1.75rem 1rem;
   border: 2px dashed $border-color;
   border-radius: 8px;
@@ -100,7 +83,6 @@
 
   &:hover {
     border-color: $primary-color;
-    /* Modern Sass color adjustment instead of deprecated lighten() */
     background: color.adjust($light-bg, $lightness: 1%);
   }
 
@@ -108,15 +90,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem; /* Spacing between the button and subtitle */
+    gap: 0.5rem;
     width: 100%;
-
     strong {
       color: $text-main;
     }
   }
 
-  /* Styled button placed on top inside the drop zone */
   .file-choose-btn {
     background: #edf2f7;
     color: $text-main;
@@ -126,13 +106,11 @@
     font-weight: 500;
     border: 1px solid $border-color;
     transition: background 0.2s;
-
     &:hover {
       background: #e2e8f0;
     }
   }
 
-  /* Subtitle text placed below the button */
   .file-subtitle {
     color: $text-muted;
     font-size: 0.85rem;
@@ -146,8 +124,7 @@
   overflow: hidden;
   height: 24px;
   position: relative;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 
   .progress-bar {
     background: $primary-color;
@@ -174,12 +151,10 @@
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 14px;
-
   strong {
     display: block;
     margin-bottom: 4px;
   }
-
   p {
     margin: 0;
     word-break: break-word;
@@ -188,8 +163,6 @@
 
 .form-actions {
   margin-top: 2rem;
-
-  /* Inherits global .btn-primary utility style */
   button[type='submit'] {
     @extend .btn-primary;
     border-radius: 8px;
@@ -198,7 +171,6 @@
     transition:
       background 0.2s ease,
       transform 0.1s ease;
-
     &:active:not(:disabled) {
       transform: scale(0.99);
     }
