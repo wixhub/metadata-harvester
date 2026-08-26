@@ -1,8 +1,6 @@
-import { Service, signal } from '@angular/core';
-import { httpResource, HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { Service, signal, inject } from '@angular/core';
+import { httpResource, HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HttpEvent } from '@angular/common/http';
 import { DatasetRecord, IngestionPayload } from '../models/metadata.model';
 import { environment } from '../../../environments/environment';
 
@@ -23,6 +21,26 @@ export class MetadataApiService {
     },
   );
 
+  // Declarative resource for fetching failed logs and mapping them to DatasetRecord interface
+  public readonly failedDatasetsResource = httpResource<DatasetRecord[]>(
+    () => `${this.baseUrl}/metrics/failed-validations/list`,
+    {
+      defaultValue: [],
+      parse: (response: any): DatasetRecord[] => {
+        const logs = response?.content || response || [];
+        // Map backend log object to match DatasetRecord structure for the table
+        return logs.map((log: any) => ({
+          id: `log-${log.id}`,
+          title: log.message ? log.message.replace(/^.*:\s*/, '') : 'Validation error',
+          format: log.details || 'Validation error',
+          status: 'ERROR',
+          recordCount: null,
+          updatedAt: log.loggedAt,
+        }));
+      },
+    },
+  );
+
   // Dynamic resource for fetching individual dataset details reactively
   public readonly datasetDetailsResource = httpResource<DatasetRecord>(() => {
     const id = this.selectedDatasetId();
@@ -35,9 +53,10 @@ export class MetadataApiService {
     { defaultValue: 0 },
   );
 
-  // Refresh the httpResources so the dashboard gets fresh data immediately
+  // Refresh all httpResources so the dashboard gets fresh data immediately
   public refresh(): void {
     this.datasetsResource.reload();
+    this.failedDatasetsResource.reload();
     this.failedValidationsResource.reload();
   }
 
