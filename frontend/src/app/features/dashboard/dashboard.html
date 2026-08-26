@@ -78,22 +78,24 @@
     </div>
   </div>
 
-  <!-- Metrics Grid -->
+  <!-- Metrics Grid with Clickable Cards -->
   <div class="metrics-grid">
-    <div class="card">
+    <div class="card" [class.active]="activeCard() === 'total'" (click)="selectCard('total')">
       <h3>Total Datasets</h3>
       <p class="metric-value">{{ totalDatasetsCount() }}</p>
-      <span class="card-hint">All processed files</span>
+      <span class="card-hint">All processed files (Click to view)</span>
     </div>
-    <div class="card">
+
+    <div class="card" [class.active]="activeCard() === 'success'" (click)="selectCard('success')">
       <h3>Successful Ingests</h3>
       <p class="metric-value success">{{ successfulCount() }}</p>
-      <span class="card-hint">Ready in repository</span>
+      <span class="card-hint">Ready in repository (Click to view)</span>
     </div>
-    <div class="card">
+
+    <div class="card" [class.active]="activeCard() === 'failed'" (click)="selectCard('failed')">
       <h3>Failed Validations</h3>
       <p class="metric-value danger">{{ failedValidationsCount() }}</p>
-      <span class="card-hint">Require format check</span>
+      <span class="card-hint">Require format check (Click to view)</span>
     </div>
   </div>
 
@@ -128,47 +130,70 @@
         </div>
       </div>
     } @else {
-      <h3>Recent Ingestion Activity</h3>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th class="col-id">ID</th>
-            <th class="col-title">Title / File</th>
-            <th class="col-format">Format</th>
-            <th class="col-status">Status</th>
-            <th class="col-records">Records</th>
-            <th class="col-date">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (item of datasets(); track item.id) {
-            <tr>
-              <td class="col-id">
-                <code>{{ item.id }}</code>
-              </td>
-              <td class="col-title">
-                <strong>{{ item.title }}</strong>
-              </td>
-              <td class="col-format">
-                <span class="badge">{{ item.format }}</span>
-              </td>
-              <td class="col-status">
-                <span [class]="'status-' + item.status.toLowerCase()">
-                  {{ item.status }}
-                </span>
-              </td>
-              <td class="col-records">{{ item.recordCount ?? '—' }}</td>
-              <td class="col-date">{{ item.updatedAt | date: 'short' }}</td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="6" class="empty-state">
-                No ingestion logs found. Start your first job above!
-              </td>
-            </tr>
-          }
-        </tbody>
+      <h3>
+        Recent Ingestion Activity
+        <span style="font-size: 13px; font-weight: normal; color: #64748b">
+          (Showing: <strong>{{ activeCard() }}</strong
+          >)
+        </span>
+      </h3>
+
+      <!-- Material Table with Sorting -->
+      <table mat-table [dataSource]="dataSource" matSort class="data-table">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-id">ID</th>
+          <td mat-cell *matCellDef="let item" class="col-id"><code>{{ item.id }}</code></td>
+        </ng-container>
+
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-title">Title / File</th>
+          <td mat-cell *matCellDef="let item" class="col-title"><strong>{{ item.title }}</strong></td>
+        </ng-container>
+
+        <!-- Format Column -->
+        <ng-container matColumnDef="format">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-format">Format</th>
+          <td mat-cell *matCellDef="let item" class="col-format">
+            <span class="badge">{{ item.format }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-status">Status</th>
+          <td mat-cell *matCellDef="let item" class="col-status">
+            <span [class]="'status-' + item.status.toLowerCase()">
+              {{ item.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Records Column -->
+        <ng-container matColumnDef="recordCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-records">Records</th>
+          <td mat-cell *matCellDef="let item" class="col-records">{{ item.recordCount ?? '—' }}</td>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="updatedAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-date">Date</th>
+          <td mat-cell *matCellDef="let item" class="col-date">{{ item.updatedAt | date: 'short' }}</td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+
+      <!-- Empty State handling if table data is empty -->
+      @if (dataSource.data.length === 0) {
+        <div class="empty-state" style="padding: 24px; text-align: center; color: #64748b;">
+          No ingestion logs found for this category.
+        </div>
+      }
     }
   </div>
 
@@ -183,7 +208,7 @@
       </p>
       <p>
         Powered by Angular & Cloudflare Pages, Spring Boot & Render. Developed by
-        <a href="https://github.com/wixhub" target="_blank">@Rublin</a>
+        <a href="https://github.com/wixhub" target="_blank">&#64;Rublin</a>
       </p>
     </div>
 
