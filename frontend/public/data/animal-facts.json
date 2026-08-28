@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "The Bear Who Checked His Email",
+    "text": "Biologists once put satellite collars on brown bears in Scandinavia. One bear managed to accidentally trigger its GPS satellite uplink modem so frequently through heavy roaming that it ran up a massive data bill, essentially \"checking its email\" from the wilderness.",
+    "readTimeSeconds": 25,
+    "icon": "🐻"
+  },
+  {
+    "id": 2,
+    "title": "Stolen Tags by Clever Foxes",
+    "text": "Researchers studying red foxes in the tundra noticed their expensive tracking tags kept disappearing. It turned out the foxes were systematically biting off each other’s transmitters and burying them under rocks, sabotaging the scientific study.",
+    "readTimeSeconds": 25,
+    "icon": "🦊"
+  },
+  {
+    "id": 3,
+    "title": "Elephant Radio DJs",
+    "text": "When tracking African elephants, researchers occasionally pick up acoustic telemetry signals. On rare occasions, local radio frequencies bleed into tracking receivers, making it sound like the elephant is broadcasting pop music while crossing the savanna.",
+    "readTimeSeconds": 25,
+    "icon": "🐘"
+  },
+  {
+    "id": 4,
+    "title": "The Albatross and the Submarine",
+    "text": "Wandering albatrosses fitted with radar telemetry loggers once startled naval officers because the birds kept \"intercepting\" secret military submarine routes in the Southern Ocean, flying in patterns that looked like tactical maneuvers.",
+    "readTimeSeconds": 25,
+    "icon": "🦅"
+  },
+  {
+    "id": 5,
+    "title": "Shark-Proof Hardware",
+    "text": "Marine biologists attaching acoustic telemetry tags to great white sharks discovered that sharks love chewing on titanium sensor housings. Several tags were recovered completely covered in shark tooth dents and salt-water corrosion.",
+    "readTimeSeconds": 25,
+    "icon": "🦈"
+  },
+  {
+    "id": 6,
+    "title": "Pigeon GPS vs. Heavy Rain",
+    "text": "In early telemetry experiments, homing pigeons carried miniature data loggers. One stubborn pigeon flew straight into a severe thunderstorm, survived, and returned home with barometric data showing it had briefly hit roller-coaster speeds.",
+    "readTimeSeconds": 25,
+    "icon": "🕊️"
+  }
+]
