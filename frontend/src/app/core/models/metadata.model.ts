@@ -25,3 +25,11 @@ export interface RestPage<T> {
   size: number;
   number: number;
 }
+
+export interface AnimalFact {
+  id: number;
+  title: string;
+  text: string;
+  readTimeSeconds: number;
+  icon: string;
+}

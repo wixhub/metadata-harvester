@@ -5,10 +5,11 @@ import { MetadataApiService } from '../../core/services/metadata-api.service';
 import { SupportMailService } from '../../core/services/support-mail.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { Loader } from '../../core/layout/loader/loader';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule],
+  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule, Loader],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
