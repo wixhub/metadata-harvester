@@ -103,32 +103,7 @@
   <div class="recent-section">
     @if (loading()) {
       <!-- Cold start wake-up notice with dynamic countdown for scientists -->
-      <div class="loader-container">
-        <div class="loader-content">
-          <div class="loader-text">
-            <p class="main-msg">Loading the Recent Ingestion Activity...</p>
-            <p class="main-msg">Waking up the cloud server (Render free tier)...</p>
-
-            @if (wakeUpCountdown() > 0) {
-              <p class="sub-msg">
-                Please wait approximately <strong>{{ wakeUpCountdown() }} seconds</strong> for the
-                backend to spin up and connect to the database.
-              </p>
-            } @else {
-              <p class="sub-msg pulse-text">
-                Almost ready! The server is finalizing startup, please hold on...
-              </p>
-            }
-
-            <p class="thanks-msg">Thank you for your patience!</p>
-          </div>
-
-          <div class="animal-spinner">
-            <!-- Bird flying in a wave pattern from right to left -->
-            <div class="track-icon bird-print flying-bird">🎐</div>
-          </div>
-        </div>
-      </div>
+      <app-loader [wakeUpCountdown]="wakeUpCountdown()" />
     } @else {
       <h3>
         Recent Ingestion Activity
@@ -140,17 +115,20 @@
 
       <!-- Material Table with Sorting -->
       <table mat-table [dataSource]="dataSource" matSort class="data-table">
-
         <!-- ID Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-id">ID</th>
-          <td mat-cell *matCellDef="let item" class="col-id"><code>{{ item.id }}</code></td>
+          <td mat-cell *matCellDef="let item" class="col-id">
+            <code>{{ item.id }}</code>
+          </td>
         </ng-container>
 
         <!-- Title Column -->
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-title">Title / File</th>
-          <td mat-cell *matCellDef="let item" class="col-title"><strong>{{ item.title }}</strong></td>
+          <td mat-cell *matCellDef="let item" class="col-title">
+            <strong>{{ item.title }}</strong>
+          </td>
         </ng-container>
 
         <!-- Format Column -->
@@ -180,17 +158,19 @@
         <!-- Date Column -->
         <ng-container matColumnDef="updatedAt">
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-date">Date</th>
-          <td mat-cell *matCellDef="let item" class="col-date">{{ item.updatedAt | date: 'short' }}</td>
+          <td mat-cell *matCellDef="let item" class="col-date">
+            {{ item.updatedAt | date: 'short' }}
+          </td>
         </ng-container>
 
         <!-- Header and Row Definitions -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
 
       <!-- Empty State handling if table data is empty -->
       @if (dataSource.data.length === 0) {
-        <div class="empty-state" style="padding: 24px; text-align: center; color: #64748b;">
+        <div class="empty-state" style="padding: 24px; text-align: center; color: #64748b">
           No ingestion logs found for this category.
         </div>
       }
