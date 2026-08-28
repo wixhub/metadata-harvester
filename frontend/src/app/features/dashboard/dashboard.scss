@@ -1,13 +1,11 @@
 @use '../../../styles' as *;
 
-/* Main dashboard wrapper container */
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
 
-/* Header section containing title and action buttons */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -16,19 +14,16 @@
   gap: 20px;
 }
 
-/* Container for dashboard title and sandbox status badge */
 .title-row {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-
   h2 {
     margin: 0;
   }
 }
 
-/* Sandbox mode indicator badge styling */
 .sandbox-badge {
   background-color: #fef3c7;
   color: #92400e;
@@ -39,10 +34,8 @@
   border-radius: 20px;
   display: inline-flex;
   align-items: center;
-  letter-spacing: 0.02em;
 }
 
-/* Subtitle description text for researchers */
 .subtitle {
   color: $text-muted;
   font-size: 14px;
@@ -50,12 +43,10 @@
   max-width: 700px;
 }
 
-/* Action buttons bar layout */
 .actions-bar {
   display: flex;
   gap: 12px;
   flex-shrink: 0;
-
   .btn-primary,
   .btn-secondary {
     padding: 10px 18px;
@@ -64,14 +55,12 @@
   }
 }
 
-/* Disabled state styles for buttons while server is waking up */
 .btn-disabled {
   opacity: 0.6;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-/* Informational guide card for scientists */
 .info-card {
   display: flex;
   gap: 16px;
@@ -92,14 +81,11 @@
     color: #166534;
     font-size: 16px;
   }
-
   p {
     margin: 0 0 8px 0;
     color: #15803d;
     font-size: 13px;
     line-height: 1.4;
-
-    /* Sandbox mode indicator badge styling */
     .contact {
       background-color: #bbd8ec;
       color: #2b0ece;
@@ -110,11 +96,9 @@
       border-radius: 20px;
       display: inline-flex;
       align-items: center;
-      letter-spacing: 0.02em;
       cursor: pointer;
     }
   }
-
   ol {
     margin: 4px 0 8px 20px;
     padding: 0;
@@ -122,11 +106,9 @@
   }
 }
 
-/* Project reference links container */
 .project-links {
   font-size: 12px;
   color: #166534;
-
   a {
     color: $primary-color;
     text-decoration: underline;
@@ -134,7 +116,6 @@
   }
 }
 
-/* Metrics summary cards grid layout */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -142,13 +123,26 @@
   margin-bottom: 30px;
 }
 
-/* Individual metric card styling */
 .card {
   background: white;
   padding: 20px;
   border-radius: 10px;
   border: 1px solid $border-color;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: $primary-color;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  &.active {
+    border: 2px solid $primary-color;
+    background-color: #f8fafc;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
 
   h3 {
     margin: 0;
@@ -162,11 +156,9 @@
   font-weight: bold;
   margin: 8px 0 0 0;
   color: #111827;
-
   &.success {
     color: #16a34a;
   }
-
   &.danger {
     color: #dc2626;
   }
@@ -177,7 +169,6 @@
   color: #9ca3af;
 }
 
-/* Modern Clean Table Styles */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -200,74 +191,46 @@
     font-size: 11px;
     letter-spacing: 0.05em;
   }
-
   td {
     padding: 12px 16px;
     border-bottom: 1px solid #f1f5f9;
     color: #1e293b;
     vertical-align: middle;
   }
-
   tbody {
     tr:last-child td {
       border-bottom: none;
     }
-
     tr:hover {
       background-color: $light-bg;
     }
   }
 }
 
-/* Explicit Column Widths to prevent overlapping */
 .col-id {
   width: 25%;
   font-family: monospace;
   font-size: 12px;
   color: #64748b;
 }
-
 .col-title {
   width: 25%;
 }
-
 .col-format {
   width: 15%;
 }
-
 .col-status {
   width: 15%;
 }
-
 .col-records {
   width: 10%;
   text-align: center;
 }
-
 .col-date {
   width: 10%;
   white-space: nowrap;
   color: #64748b;
   font-size: 13px;
-}
-
-/* Status Badges */
-.status-processed {
-  color: #16a34a;
-  background: #dcfce7;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 12px;
-}
-
-.badge {
-  background: #e2e8f0;
-  color: #334155;
-  padding: 3px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
 }
 
 .empty-state {
@@ -276,7 +239,6 @@
   padding: 24px !important;
 }
 
-/* Loader Styles */
 .loader-container {
   display: flex;
   flex-direction: column;
@@ -299,31 +261,26 @@
 
 .loader-text {
   margin-bottom: 24px;
-
   .main-msg {
     font-size: 1.15rem;
     font-weight: 600;
     color: #1e293b;
     margin: 0 0 12px 0;
   }
-
   .sub-msg {
     font-size: 0.95rem;
     color: #475569;
     margin: 0 0 8px 0;
     line-height: 1.5;
-
     strong {
       color: #0f172a;
     }
   }
-
   .pulse-text {
     color: #d97706;
     font-weight: 500;
     animation: text-pulse 1.5s infinite ease-in-out;
   }
-
   .thanks-msg {
     font-size: 0.85rem;
     color: #94a3b8;
@@ -337,7 +294,6 @@
   height: 110px;
   margin: 0 auto;
 }
-
 .track-icon {
   position: absolute;
   opacity: 0;
@@ -379,54 +335,38 @@
   }
 }
 
-@keyframes text-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 .flying-bird {
   animation-delay: 0s;
 }
 
-/* Footer section with support info */
 .dashboard-footer {
   margin-top: 40px;
   border-top: 1px solid #e5e7eb;
   padding-top: 20px;
 }
 
-/* Project metadata and author info credits in footer */
 .project-info-footer {
   margin-bottom: 20px;
   text-align: center;
   font-size: 13px;
   color: #64748b;
   line-height: 1.6;
-
   a {
     color: $primary-color;
     text-decoration: none;
     font-weight: 500;
-
     &:hover {
       text-decoration: underline;
     }
   }
 }
 
-/* Support and contact callout box */
 .support-box {
   background: $light-bg;
   border: 1px solid #e2e8f0;
   padding: 16px;
   border-radius: 8px;
   position: relative;
-
   .support-row {
     display: flex;
     justify-content: center;
@@ -441,19 +381,16 @@
   font-size: 13px;
   color: #475569;
 }
-
 .support-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
 .support-btn-wrapper {
   position: relative;
   display: inline-block;
 }
 
-/* Primary support action button (Email) */
 .support-btn {
   background: $primary-color;
   color: white;
@@ -464,14 +401,12 @@
   font-weight: 500;
   display: inline-block;
   transition: background 0.2s ease;
-
   &:hover {
     background: $primary-hover;
     cursor: pointer;
   }
 }
 
-/* Tooltip notification positioned strictly ABOVE the mail button */
 .tooltip-notification {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -487,7 +422,6 @@
   pointer-events: none;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   z-index: 10;
-
   &::after {
     content: '';
     position: absolute;

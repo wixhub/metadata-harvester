@@ -1,60 +1,129 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { signal } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { Dashboard } from './dashboard';
 import { MetadataApiService } from '../../core/services/metadata-api.service';
-import { DatasetRecord } from '../../core/models/metadata.model';
+import { SupportMailService } from '../../core/services/support-mail.service';
+import { signal } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
 
-describe('Dashboard', () => {
+describe('Dashboard Component', () => {
   let component: Dashboard;
   let fixture: ComponentFixture<Dashboard>;
 
-  // Mock implementation of MetadataApiService with required signals
-  const mockMetadataApiService = {
-    datasetsResource: {
-      value: signal<DatasetRecord[]>([
-        {
-          id: 'test-dash-1',
-          title: 'Dashboard Test Dataset',
-          format: 'DWC_A',
-          status: 'PROCESSED',
-          updatedAt: '2026-08-21T12:00:00Z',
-          recordCount: 100,
-          validationErrors: [],
-        },
-      ]),
-      isLoading: signal<boolean>(false),
-    },
-    failedValidationsResource: {
-      value: signal<number>(2),
-    },
+  // Mock services with signals or basic spies matching your API resources
+  let mockMetadataApiService: {
+    datasetsResource: { value: any; isLoading: any };
+    failedDatasetsResource: { value: any };
+    failedValidationsResource: { value: any };
+  };
+
+  let mockSupportMailService: {
+    handleContact: ReturnType<typeof vi.fn>;
   };
 
   beforeEach(async () => {
+    // Define mock implementations
+    mockMetadataApiService = {
+      datasetsResource: {
+        value: signal([
+          {
+            id: 1,
+            title: 'Dataset A',
+            format: 'JSON',
+            status: 'PROCESSED',
+            recordCount: 10,
+            updatedAt: '2026-06-01',
+          },
+          {
+            id: 2,
+            title: 'Dataset B',
+            format: 'CSV',
+            status: 'PENDING',
+            recordCount: 5,
+            updatedAt: '2026-06-02',
+          },
+        ]),
+        isLoading: signal(false),
+      },
+      failedDatasetsResource: {
+        value: signal([
+          {
+            id: 3,
+            title: 'Dataset C',
+            format: 'XML',
+            status: 'FAILED',
+            recordCount: 0,
+            updatedAt: '2026-05-28',
+          },
+        ]),
+      },
+      failedValidationsResource: {
+        value: signal(1),
+      },
+    };
+
+    mockSupportMailService = {
+      handleContact: vi.fn().mockResolvedValue(true),
+    };
+
     await TestBed.configureTestingModule({
       imports: [Dashboard],
       providers: [
-        provideRouter([]), // Required for RouterLink used in the dashboard template
+        provideRouter([]),
         { provide: MetadataApiService, useValue: mockMetadataApiService },
+        { provide: SupportMailService, useValue: mockSupportMailService },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    fixture.detectChanges(); // Triggers ngOnInit and initial effects
   });
 
-  // Verify that the component successfully initializes
-  it('should create', () => {
+  it('should create the dashboard component', () => {
     expect(component).toBeTruthy();
   });
 
-  // Verify that metrics and datasets are correctly rendered from signals
-  it('should render dashboard metrics and dataset info', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
+  it('should compute successful and total dataset counts correctly', () => {
+    // 1 processed dataset in mock datasets + 1 failed validation count
+    expect(component.successfulCount()).toBe(1);
+    expect(component.totalDatasetsCount()).toBe(2);
+  });
 
-    expect(compiled.textContent).toContain('Ecological Metadata Harvester Dashboard');
-    expect(compiled.textContent).toContain('Dashboard Test Dataset');
-    expect(compiled.textContent).toContain('DWC_A');
+  it('should switch active cards and update table data source via effect', () => {
+    // Default active card is 'success'
+    expect(component.activeCard()).toBe('success');
+    expect(component.dataSource.data.length).toBe(1);
+    expect(component.dataSource.data[0].title).toBe('Dataset A');
+
+    // Switch to 'failed' card view
+    component.selectCard('failed');
+    expect(component.activeCard()).toBe('failed');
+
+    // Allow effect / state propagation
+    fixture.detectChanges();
+
+    expect(component.dataSource.data.length).toBe(1);
+    expect(component.dataSource.data[0].title).toBe('Dataset C');
+  });
+
+  it('should handle contact click and toggle copied signal notification', async () => {
+    const mockEvent = new Event('click');
+
+    expect(component.copied()).toBe(false);
+
+    await component.onContactClick(mockEvent);
+
+    expect(mockSupportMailService.handleContact).toHaveBeenCalledWith(mockEvent);
+    expect(component.copied()).toBe(true);
+  });
+
+  it('should initialize MatSort correctly via ViewChild setter', () => {
+    const sort = new MatSort();
+    component.sort = sort;
+
+    expect(component.dataSource.sort).toBe(sort);
+    expect(sort.active).toBe('updatedAt');
+    expect(sort.direction).toBe('desc');
   });
 });
