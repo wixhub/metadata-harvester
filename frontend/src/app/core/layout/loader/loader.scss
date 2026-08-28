@@ -1,0 +1,175 @@
+@use '../../../../styles.scss' as *;
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  .loader-content {
+    background: #ffffff;
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    padding: 2.5rem;
+    max-width: 650px;
+    width: 100%;
+    box-shadow:
+      0 10px 25px -5px rgba(0, 0, 0, 0.05),
+      0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .loader-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .main-msg {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #103784;
+      margin: 0;
+    }
+
+    // Styles for sleeping animal container
+    .sleeping-animal-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 0.25rem 0;
+
+      .sleeping-emoji {
+        font-size: 1.4rem;
+        animation: gentle-snore 2s infinite ease-in-out;
+      }
+
+      .server-wake-text {
+        font-size: 1rem;
+        color: #103784;
+      }
+    }
+
+    .sub-msg {
+      font-size: 0.95rem;
+      color: $text-muted;
+      margin: 0.25rem 0 0 0;
+
+      strong {
+        color: $primary-color;
+      }
+    }
+
+    .pulse-text {
+      animation: text-pulse 1.5s infinite ease-in-out;
+      color: #d69e2e;
+      font-weight: 500;
+    }
+  }
+
+  .fact-card-container {
+    background: $light-bg;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    transition: all 0.3s ease;
+
+    .fact-header-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .fact-icon {
+        font-size: 1.75rem;
+        line-height: 1;
+      }
+
+      .fact-badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $primary-color;
+        background: rgba(43, 108, 176, 0.1);
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+      }
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 1.05rem;
+      color: #1a202c;
+      font-weight: 600;
+    }
+
+    .fact-text {
+      margin: 0;
+      font-size: 0.9rem;
+      color: $text-main;
+      line-height: 1.5;
+    }
+
+    // Spinner track with minimal top/bottom margins and no border line
+    .card-spinner-track {
+      position: relative;
+      width: 100%;
+      height: 22px;
+      overflow: hidden;
+      margin-top: 0.25rem;
+      margin-bottom: -0.25rem;
+
+      .flying-bird {
+        position: absolute;
+        font-size: 1.2rem;
+        animation: wave-fly 4s infinite linear;
+        top: 0;
+      }
+    }
+  }
+
+  .loader-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+
+    .thanks-msg {
+      font-size: 0.85rem;
+      color: $text-muted;
+      margin: 0;
+      font-style: italic;
+    }
+  }
+}
+
+@keyframes wave-fly {
+  0% {
+    left: -5%;
+    transform: translateY(0px) scaleX(1);
+  }
+  25% {
+    transform: translateY(-4px) scaleX(1);
+  }
+  50% {
+    left: 45%;
+    transform: translateY(2px) scaleX(1);
+  }
+  75% {
+    transform: translateY(-2px) scaleX(1);
+  }
+  100% {
+    left: 105%;
+    transform: translateY(0px) scaleX(1);
+  }
+}
