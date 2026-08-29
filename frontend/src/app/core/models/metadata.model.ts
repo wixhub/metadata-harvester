@@ -2,6 +2,8 @@ export type MetadataFormat = 'MOVEBANK_XML' | 'DWC_A' | 'JSON_SCHEMA';
 
 export type IngestionStatus = 'PENDING' | 'VALIDATING' | 'PROCESSED' | 'FAILED';
 
+export type CardType = 'total' | 'success' | 'failed';
+
 export interface DatasetRecord {
   id: string;
   title: string;
