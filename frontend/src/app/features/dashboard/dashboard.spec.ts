@@ -5,12 +5,12 @@ import { MetadataApiService } from '../../core/services/metadata-api.service';
 import { SupportMailService } from '../../core/services/support-mail.service';
 import { signal } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
+import { MetricsGrid } from './components/metrics-grid/metrics-grid';
 
 describe('Dashboard Component', () => {
   let component: Dashboard;
   let fixture: ComponentFixture<Dashboard>;
 
-  // Mock services with signals or basic spies matching your API resources
   let mockMetadataApiService: {
     datasetsResource: { value: any; isLoading: any };
     failedDatasetsResource: { value: any };
@@ -22,7 +22,6 @@ describe('Dashboard Component', () => {
   };
 
   beforeEach(async () => {
-    // Define mock implementations
     mockMetadataApiService = {
       datasetsResource: {
         value: signal([
@@ -67,7 +66,7 @@ describe('Dashboard Component', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [Dashboard],
+      imports: [Dashboard, MetricsGrid],
       providers: [
         provideRouter([]),
         { provide: MetadataApiService, useValue: mockMetadataApiService },
@@ -77,7 +76,7 @@ describe('Dashboard Component', () => {
 
     fixture = TestBed.createComponent(Dashboard);
     component = fixture.componentInstance;
-    fixture.detectChanges(); // Triggers ngOnInit and initial effects
+    fixture.detectChanges();
   });
 
   it('should create the dashboard component', () => {
@@ -85,22 +84,18 @@ describe('Dashboard Component', () => {
   });
 
   it('should compute successful and total dataset counts correctly', () => {
-    // 1 processed dataset in mock datasets + 1 failed validation count
     expect(component.successfulCount()).toBe(1);
     expect(component.totalDatasetsCount()).toBe(2);
   });
 
   it('should switch active cards and update table data source via effect', () => {
-    // Default active card is 'success'
     expect(component.activeCard()).toBe('success');
     expect(component.dataSource.data.length).toBe(1);
     expect(component.dataSource.data[0].title).toBe('Dataset A');
 
-    // Switch to 'failed' card view
     component.selectCard('failed');
     expect(component.activeCard()).toBe('failed');
 
-    // Allow effect / state propagation
     fixture.detectChanges();
 
     expect(component.dataSource.data.length).toBe(1);

@@ -32,79 +32,67 @@
     </div>
   </div>
 
-  <!-- Informational Banner for Researchers -->
-  <div class="info-card">
-    <div class="info-icon">💡</div>
-    <div class="info-content">
-      <h4>How to validate your metadata</h4>
-      <p>
-        <strong>Step-by-step guide:</strong>
-      </p>
-      <ol>
-        <li>Click <strong>+ New Ingestion Job</strong> in the top right corner.</li>
-        <li>
-          Upload your ecological metadata file (Movebank XML, DwC-A zip, etc.). The format can be
-          auto-detected!
-        </li>
-        <li>
-          The Java backend on Render instantly parses and validates your file. If there's an error,
-          you will see it immediately on a red alert banner before finalizing.
-        </li>
-        <li>
-          Once valid, check the live status in the table below: <code>PROCESSED</code> means ready
-          for DSpace.
-        </li>
-      </ol>
-      <p style="font-size: 0.9em; color: #555; margin-top: 6px">
-        <em
-          >Note: Currently running in Sandbox Mode. Need custom DSpace OAuth/REST integration for
-          your institution?
-          <!-- Wrapper for the mail button and its popup tooltip -->
-          <div class="support-btn-wrapper">
-            <a (click)="onContactClick($event)" class="contact">Contact us!</a>
-
-            @if (copied()) {
-              <span class="tooltip-notification">Email copied to clipboard!</span>
-            }
-          </div></em
-        >
-      </p>
-      <div class="project-links" style="margin-top: 8px">
-        <span>🔗 Useful links: </span>
-        <a href="https://movebank.org" target="_blank">Movebank Standard</a>
-        <a href="https://dwc.tdwg.org" target="_blank">Darwin Core (DwC)</a>
-        <a href="https://dspace.org" target="_blank">DSpace Repository</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Metrics Grid with Clickable Cards -->
-  <div class="metrics-grid">
-    <div class="card" [class.active]="activeCard() === 'total'" (click)="selectCard('total')">
-      <h3>Total Datasets</h3>
-      <p class="metric-value">{{ totalDatasetsCount() }}</p>
-      <span class="card-hint">All processed files (Click to view)</span>
-    </div>
-
-    <div class="card" [class.active]="activeCard() === 'success'" (click)="selectCard('success')">
-      <h3>Successful Ingests</h3>
-      <p class="metric-value success">{{ successfulCount() }}</p>
-      <span class="card-hint">Ready in repository (Click to view)</span>
-    </div>
-
-    <div class="card" [class.active]="activeCard() === 'failed'" (click)="selectCard('failed')">
-      <h3>Failed Validations</h3>
-      <p class="metric-value danger">{{ failedValidationsCount() }}</p>
-      <span class="card-hint">Require format check (Click to view)</span>
-    </div>
-  </div>
-
   <!-- Recent Activity Section -->
   <div class="recent-section">
     @if (loading()) {
       <!-- Cold start wake-up notice with dynamic countdown for scientists -->
       <app-loader [wakeUpCountdown]="wakeUpCountdown()" />
     } @else {
+      <!-- Informational Banner -->
+      <div class="info-card">
+        <div class="info-icon">💡</div>
+        <div class="info-content">
+          <h4>How to validate your metadata</h4>
+          <p>
+            <strong>Step-by-step guide:</strong>
+          </p>
+          <ol>
+            <li>Click <strong>+ New Ingestion Job</strong> in the top right corner.</li>
+            <li>
+              Upload your ecological metadata file (Movebank XML, DwC-A zip, etc.). The format can
+              be auto-detected!
+            </li>
+            <li>
+              The Java backend on Render instantly parses and validates your file. If there's an
+              error, you will see it immediately on a red alert banner before finalizing.
+            </li>
+            <li>
+              Once valid, check the live status in the table below: <code>PROCESSED</code> means
+              ready for DSpace.
+            </li>
+          </ol>
+          <p style="font-size: 0.9em; color: #555; margin-top: 6px">
+            <em
+              >Note: Currently running in Sandbox Mode. Need custom DSpace OAuth/REST integration
+              for your institution?
+              <!-- Wrapper for the mail button and its popup tooltip -->
+              <div class="support-btn-wrapper">
+                <a (click)="onContactClick($event)" class="contact">Contact us!</a>
+
+                @if (copied()) {
+                  <span class="tooltip-notification">Email copied to clipboard!</span>
+                }
+              </div></em
+            >
+          </p>
+          <div class="project-links" style="margin-top: 8px">
+            <span>🔗 Useful links: </span>
+            <a href="https://movebank.org" target="_blank">Movebank Standard</a>
+            <a href="https://dwc.tdwg.org" target="_blank">Darwin Core (DwC)</a>
+            <a href="https://dspace.org" target="_blank">DSpace Repository</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metrics Grid with Clickable Cards -->
+      <app-metrics-grid
+        [totalDatasetsCount]="totalDatasetsCount()"
+        [successfulCount]="successfulCount()"
+        [failedValidationsCount]="failedValidationsCount()"
+        [activeCard]="activeCard()"
+        (cardSelected)="selectCard($event)"
+      />
+
       <h3>
         Recent Ingestion Activity
         <span style="font-size: 13px; font-weight: normal; color: #64748b">

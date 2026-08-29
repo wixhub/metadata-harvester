@@ -1,0 +1,56 @@
+@use '../../../../../styles' as *;
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid $border-color;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    border-color: $primary-color;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  &.active {
+    border: 2px solid $primary-color;
+    background-color: #f8fafc;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 14px;
+    color: $text-muted;
+  }
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 8px 0 0 0;
+  color: #111827;
+
+  &.success {
+    color: #16a34a;
+  }
+
+  &.danger {
+    color: #dc2626;
+  }
+}
+
+.card-hint {
+  font-size: 11px;
+  color: #9ca3af;
+}
