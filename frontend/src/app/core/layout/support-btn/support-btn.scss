@@ -1,0 +1,54 @@
+@use '../../../../styles' as *;
+
+.support-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.support-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.support-btn {
+  background: $primary-color;
+  color: white;
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: background 0.2s ease;
+  &:hover {
+    background: $primary-hover;
+    cursor: pointer;
+  }
+}
+
+.tooltip-notification {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: #0f172a transparent transparent transparent;
+  }
+}

@@ -1,0 +1,10 @@
+<div class="support-actions">
+  <!-- Wrapper for the mail button and its popup tooltip -->
+  <div class="support-btn-wrapper">
+    <a (click)="onContactClick($event)" class="support-btn">Send email</a>
+
+    @if (copied()) {
+      <span class="tooltip-notification">Email copied to clipboard!</span>
+    }
+  </div>
+</div>
