@@ -2,22 +2,21 @@ import { Component, computed, inject, OnInit, signal, ViewChild, effect } from '
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MetadataApiService } from '../../core/services/metadata-api.service';
-import { SupportMailService } from '../../core/services/support-mail.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Loader } from '../../core/layout/loader/loader';
 import { MetricsGrid } from './components/metrics-grid/metrics-grid';
 import { CardType } from '../../core/models/metadata.model';
+import { Footer } from '../../core/layout/footer/footer';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule, Loader, MetricsGrid],
+  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule, Loader, MetricsGrid, Footer],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnInit {
   private apiService = inject(MetadataApiService);
-  private mailService = inject(SupportMailService);
 
   // Table columns definition
   displayedColumns: string[] = ['id', 'title', 'format', 'status', 'recordCount', 'updatedAt'];
@@ -96,22 +95,6 @@ export class Dashboard implements OnInit {
       this.dataSource.sort.direction = 'desc';
       // Trigger sort sort-state re-evaluation
       this.dataSource._updateChangeSubscription();
-    }
-  }
-
-  // Signal to manage UI notification state
-  public copied = signal<boolean>(false);
-
-  public async onContactClick(event: Event): Promise<void> {
-    const success = await this.mailService.handleContact(event);
-
-    if (success) {
-      this.copied.set(true);
-
-      // Hide the notification after 3 seconds
-      setTimeout(() => {
-        this.copied.set(false);
-      }, 3000);
     }
   }
 

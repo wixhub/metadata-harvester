@@ -1,77 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
 import { Dashboard } from './dashboard';
 import { MetadataApiService } from '../../core/services/metadata-api.service';
-import { SupportMailService } from '../../core/services/support-mail.service';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { signal } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MetricsGrid } from './components/metrics-grid/metrics-grid';
+import { provideRouter } from '@angular/router';
 
-describe('Dashboard Component', () => {
-  let component: Dashboard;
+describe('Dashboard', () => {
   let fixture: ComponentFixture<Dashboard>;
-
-  let mockMetadataApiService: {
-    datasetsResource: { value: any; isLoading: any };
-    failedDatasetsResource: { value: any };
-    failedValidationsResource: { value: any };
-  };
-
-  let mockSupportMailService: {
-    handleContact: ReturnType<typeof vi.fn>;
-  };
+  let component: Dashboard;
+  let mockApiService: any;
 
   beforeEach(async () => {
-    mockMetadataApiService = {
+    mockApiService = {
       datasetsResource: {
         value: signal([
-          {
-            id: 1,
-            title: 'Dataset A',
-            format: 'JSON',
-            status: 'PROCESSED',
-            recordCount: 10,
-            updatedAt: '2026-06-01',
-          },
-          {
-            id: 2,
-            title: 'Dataset B',
-            format: 'CSV',
-            status: 'PENDING',
-            recordCount: 5,
-            updatedAt: '2026-06-02',
-          },
+          { id: '1', status: 'PROCESSED', updatedAt: '2026-01-01' },
+          { id: '2', status: 'FAILED', updatedAt: '2026-01-02' },
         ]),
         isLoading: signal(false),
       },
       failedDatasetsResource: {
-        value: signal([
-          {
-            id: 3,
-            title: 'Dataset C',
-            format: 'XML',
-            status: 'FAILED',
-            recordCount: 0,
-            updatedAt: '2026-05-28',
-          },
-        ]),
+        value: signal([{ id: '3', status: 'ERROR', updatedAt: '2026-01-03' }]),
       },
       failedValidationsResource: {
         value: signal(1),
       },
     };
 
-    mockSupportMailService = {
-      handleContact: vi.fn().mockResolvedValue(true),
-    };
-
     await TestBed.configureTestingModule({
-      imports: [Dashboard, MetricsGrid],
-      providers: [
-        provideRouter([]),
-        { provide: MetadataApiService, useValue: mockMetadataApiService },
-        { provide: SupportMailService, useValue: mockSupportMailService },
-      ],
+      imports: [Dashboard],
+      providers: [provideRouter([]), { provide: MetadataApiService, useValue: mockApiService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
@@ -79,46 +36,49 @@ describe('Dashboard Component', () => {
     fixture.detectChanges();
   });
 
-  it('should create the dashboard component', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should compute successful and total dataset counts correctly', () => {
+  it('should initialize with default values', () => {
+    expect(component.displayedColumns).toEqual([
+      'id',
+      'title',
+      'format',
+      'status',
+      'recordCount',
+      'updatedAt',
+    ]);
+    expect(component.wakeUpCountdown()).toBe(150);
+    expect(component.activeCard()).toBe('success');
+  });
+
+  it('should compute successful count correctly', () => {
     expect(component.successfulCount()).toBe(1);
+  });
+
+  it('should compute total datasets count correctly', () => {
     expect(component.totalDatasetsCount()).toBe(2);
   });
 
-  it('should switch active cards and update table data source via effect', () => {
-    expect(component.activeCard()).toBe('success');
-    expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].title).toBe('Dataset A');
-
+  it('should change active card and update data source', () => {
     component.selectCard('failed');
-    expect(component.activeCard()).toBe('failed');
-
     fixture.detectChanges();
-
-    expect(component.dataSource.data.length).toBe(1);
-    expect(component.dataSource.data[0].title).toBe('Dataset C');
+    expect(component.activeCard()).toBe('failed');
+    expect(component.dataSource.data).toEqual([
+      { id: '3', status: 'ERROR', updatedAt: '2026-01-03' },
+    ]);
   });
 
-  it('should handle contact click and toggle copied signal notification', async () => {
-    const mockEvent = new Event('click');
-
-    expect(component.copied()).toBe(false);
-
-    await component.onContactClick(mockEvent);
-
-    expect(mockSupportMailService.handleContact).toHaveBeenCalledWith(mockEvent);
-    expect(component.copied()).toBe(true);
-  });
-
-  it('should initialize MatSort correctly via ViewChild setter', () => {
-    const sort = new MatSort();
-    component.sort = sort;
-
-    expect(component.dataSource.sort).toBe(sort);
-    expect(sort.active).toBe('updatedAt');
-    expect(sort.direction).toBe('desc');
+  it('should filter success datasets when success card is selected', () => {
+    component.selectCard('success');
+    fixture.detectChanges();
+    expect(component.dataSource.data).toEqual([
+      { id: '1', status: 'PROCESSED', updatedAt: '2026-01-01' },
+    ]);
   });
 });

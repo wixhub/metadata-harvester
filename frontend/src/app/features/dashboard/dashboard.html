@@ -64,15 +64,7 @@
           <p style="font-size: 0.9em; color: #555; margin-top: 6px">
             <em
               >Note: Currently running in Sandbox Mode. Need custom DSpace OAuth/REST integration
-              for your institution?
-              <!-- Wrapper for the mail button and its popup tooltip -->
-              <div class="support-btn-wrapper">
-                <a (click)="onContactClick($event)" class="contact">Contact us!</a>
-
-                @if (copied()) {
-                  <span class="tooltip-notification">Email copied to clipboard!</span>
-                }
-              </div></em
+              for your institution? Contact us below!</em
             >
           </p>
           <div class="project-links" style="margin-top: 8px">
@@ -166,38 +158,5 @@
   </div>
 
   <!-- Support & Author Footer -->
-  <footer class="dashboard-footer">
-    <!-- Open Source & Data Source Info -->
-    <div class="project-info-footer">
-      <p>
-        Open-source project available on
-        <a href="https://github.com/wixhub/metadata-harvester" target="_blank">GitHub</a>
-        | Data streams provided by <a href="https://movebank.org" target="_blank">Movebank</a>
-      </p>
-      <p>
-        Powered by Angular & Cloudflare Pages, Spring Boot & Render. Developed by
-        <a href="https://github.com/wixhub" target="_blank">&#64;Rublin</a>
-      </p>
-    </div>
-
-    <!-- Support & Contact Box -->
-    <div class="support-box">
-      <div class="support-row">
-        <p class="support-text">
-          🛠️ Need custom metadata mapping, technical support for your ecological project or want to
-          suggest an improvement?
-        </p>
-        <div class="support-actions">
-          <!-- Wrapper for the mail button and its popup tooltip -->
-          <div class="support-btn-wrapper">
-            <a (click)="onContactClick($event)" class="support-btn">Send email</a>
-
-            @if (copied()) {
-              <span class="tooltip-notification">Email copied to clipboard!</span>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <app-footer />
 </div>
