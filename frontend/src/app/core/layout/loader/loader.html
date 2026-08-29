@@ -1,0 +1,47 @@
+<!-- Loader container with dynamic server wake-up notification -->
+<div class="loader-container">
+  <div class="loader-content">
+    <!-- Top section: Header with sleeping animal notification and live countdown -->
+    <div class="loader-header">
+      <p class="main-msg">Loading Recent Ingestion Activity ...</p>
+
+      <!-- Sleeping animal badge/notice for the cloud wake-up phase -->
+      <div class="sleeping-animal-box">
+        <p class="main-msg server-wake-text">
+          Waking up the cloud server on Render's free tier <span class="sleeping-emoji">🦥💤</span>
+        </p>
+      </div>
+
+      @if (wakeUpCountdown() > 0) {
+        <p class="sub-msg">
+          Please wait approximately <strong>{{ wakeUpCountdown() }} seconds</strong> for the backend
+          to spin up and connect to the database.
+        </p>
+      } @else {
+        <p class="sub-msg pulse-text">
+          Almost ready! The server is finalizing startup, please hold on ...
+        </p>
+      }
+    </div>
+
+    <!-- Middle section: Dynamic telemetry fun facts card with flying spinner inside -->
+    @let currentFact = facts()[currentIndex()];
+    <div class="fact-card-container">
+      <div class="fact-header-row">
+        <span class="fact-icon">{{ currentFact.icon }}</span>
+        <div class="fact-badge">📡 Telemetry Field Notes</div>
+      </div>
+      <h4>{{ currentFact.title }}</h4>
+      <p class="fact-text">{{ currentFact.text }}</p>
+
+      <div class="card-spinner-track">
+        <div class="track-icon bird-print flying-bird">🎐</div>
+      </div>
+    </div>
+
+    <!-- Bottom section: Patience message -->
+    <div class="loader-footer">
+      <p class="thanks-msg">Thank you for your patience!</p>
+    </div>
+  </div>
+</div>
