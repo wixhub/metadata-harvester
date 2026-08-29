@@ -6,10 +6,12 @@ import { SupportMailService } from '../../core/services/support-mail.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { Loader } from '../../core/layout/loader/loader';
+import { MetricsGrid } from './components/metrics-grid/metrics-grid';
+import { CardType } from '../../core/models/metadata.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule, Loader],
+  imports: [RouterLink, DatePipe, MatTableModule, MatSortModule, Loader, MetricsGrid],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -57,7 +59,7 @@ export class Dashboard implements OnInit {
   });
 
   // Active card selector: set to 'success' (middle card) by default
-  activeCard = signal<'total' | 'success' | 'failed'>('success');
+  activeCard = signal<CardType>('success');
 
   constructor() {
     // Automatically update table data source whenever active card or raw data changes
@@ -85,7 +87,7 @@ export class Dashboard implements OnInit {
   }
 
   // Method to change the active card view, switch table contents, and reset sorting to updatedAt
-  selectCard(cardType: 'total' | 'success' | 'failed'): void {
+  selectCard(cardType: CardType): void {
     this.activeCard.set(cardType);
 
     // Reset sorting back to updatedAt (descending) whenever a card is switched
