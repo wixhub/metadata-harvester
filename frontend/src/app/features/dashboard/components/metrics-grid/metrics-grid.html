@@ -1,0 +1,23 @@
+<!-- Metrics Grid with Clickable Cards -->
+<div class="metrics-grid">
+  <!-- Total Datasets Card -->
+  <div class="card" [class.active]="activeCard() === 'total'" (click)="onSelectCard('total')">
+    <h3>Total Datasets</h3>
+    <p class="metric-value">{{ totalDatasetsCount() }}</p>
+    <span class="card-hint">All processed files (Click to view)</span>
+  </div>
+
+  <!-- Successful Ingests Card -->
+  <div class="card" [class.active]="activeCard() === 'success'" (click)="onSelectCard('success')">
+    <h3>Successful Ingests</h3>
+    <p class="metric-value success">{{ successfulCount() }}</p>
+    <span class="card-hint">Ready in repository (Click to view)</span>
+  </div>
+
+  <!-- Failed Validations Card -->
+  <div class="card" [class.active]="activeCard() === 'failed'" (click)="onSelectCard('failed')">
+    <h3>Failed Validations</h3>
+    <p class="metric-value danger">{{ failedValidationsCount() }}</p>
+    <span class="card-hint">Require format check (Click to view)</span>
+  </div>
+</div>
