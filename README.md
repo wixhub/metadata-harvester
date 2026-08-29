@@ -58,10 +58,10 @@ Contributions, issues and feature requests are welcome! Feel free to check the [
 
 ## 📬 Contact & Support
 
-If you have any questions, suggestions, or feedback regarding this project, feel free to reach out:
+If you have any questions, suggestions or feedback regarding this project, feel free to reach out:
 
-- **Author:** [@Rublin](https://github.com/wixhub)
-- **Telegram:** [@typeweb](https://t.me/typeweb)
+- **Author:** [@wixhub](https://github.com/wixhub)
+  - **Telegram:** [@typeweb](https://t.me/typeweb)
 - **GitHub Repository:** [moverdm-explorer](https://github.com/wixhub/metadata-harvester)
 
 ---
@@ -71,3 +71,6 @@ If you have any questions, suggestions, or feedback regarding this project, feel
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 This project is open-source and available under the [MIT License](LICENSE).
+
+- **Data & Map Attribution**:
+  - Animal tracking data provided by **[Movebank](www.movebank.org)** and individual researchers.
