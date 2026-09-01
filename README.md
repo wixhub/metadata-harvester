@@ -2,6 +2,12 @@
 
 An enterprise-grade system designed to ingest, validate and manage ecological metadata such as **Movebank XML** and **Darwin Core Archives** with integration into institutional **DSpace** repositories.
 
+[![Movebank API](https://img.shields.io/badge/Movebank-API_Live-2ea44f?style=flat&logo=databricks&logoColor=white)](https://www.movebank.org/)
+[![Max Planck Institute](https://img.shields.io/badge/MPI_Animal_Behavior-Partner-005691?style=flat)](https://www.ab.mpg.de/)
+[![University of Konstanz](https://img.shields.io/badge/Uni_Konstanz-Partner-003366?style=flat)](https://www.uni-konstanz.de/)
+[![MoveRDM Dataset Explorer](https://img.shields.io/badge/MoveRDM_Dataset_Explorer-Project-00a8cc?style=flat&logo=databricks&logoColor=white)](https://movebank-explorer.pages.dev)
+
+[![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=flat&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Neon DB](https://img.shields.io/badge/Neon-Cloud_Postgres-00E599?style=flat&logo=neon&logoColor=black)](https://neon.tech/)
@@ -9,6 +15,7 @@ An enterprise-grade system designed to ingest, validate and manage ecological me
 
 [![Angular](https://img.shields.io/badge/Angular-22-DD0031?style=flat&logo=angular&logoColor=white)](https://angular.io/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Cloudflare Pages](https://img.shields.io/badge/Deployed%20to-Cloudflare%20Pages-orange?logo=cloudflare)](https://pages.cloudflare.com/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Sandbox Mode](https://img.shields.io/badge/Mode-Sandbox-f59e0b?style=flat&logo=codesandbox&logoColor=white)](#-current-status-sandbox-mode)
 
@@ -32,7 +39,7 @@ The project is split into two independent sub-projects:
 
 - **`frontend/`** — Angular 22 Single Page Application providing an administrative dashboard, upload wizards and dataset explorers.
 
-![Metadata Harvester Architecture Diagram](ARCHITECTURE.png")
+![Metadata Harvester Architecture Diagram](ARCHITECTURE.png)
 
 > _Tip: You can also inspect the raw diagram source code in [ARCHITECTURE.mmd](ARCHITECTURE.mmd)._
 
