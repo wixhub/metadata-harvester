@@ -24,117 +24,13 @@ An enterprise-grade Angular administrative dashboard and ingestion wizard. It in
 
 - Testing: Vitest 4.0.8
 
-## System Architecture
+## 🏛️ System Architecture
 
-```mermaid
-graph TB
-    subgraph "Client Layer"
-        Browser["🌐 Browser"]
-    end
+<p align="center">
+  <img src="diagram.png" alt="Metadata Harvester Frontend Architecture Diagram" width="100%">
+</p>
 
-    subgraph "Angular Application"
-        AppRoot["App Root<br/>app.ts"]
-        Router["Router<br/>app.routes.ts"]
-
-        subgraph "Core Layer"
-            Services["Services<br/>────────"]
-            MAS["MetadataApiService<br/>- httpResource reactive state<br/>- Datasets fetch<br/>- Failed validations<br/>- Dataset details"]
-            SMS["SupportMailService<br/>- Email obfuscation<br/>- Clipboard copy<br/>- Mailto handler"]
-
-            Models["Models<br/>────────"]
-            Metadata["metadata.model.ts<br/>- DatasetRecord<br/>- IngestionPayload<br/>- RestPage<br/>- MetadataFormat<br/>- IngestionStatus"]
-
-            Services --> MAS
-            Services --> SMS
-            Models --> Metadata
-        end
-
-        subgraph "Layout Components"
-            Layout["Core Layout"]
-            Footer["Footer Component"]
-            Loader["Loader Component"]
-            SupportBtn["Support Button"]
-            Layout --> Footer
-            Layout --> Loader
-            Layout --> SupportBtn
-        end
-
-        subgraph "Feature Modules"
-            Dashboard["📊 Dashboard<br/>dashboard.ts<br/>- Metrics Grid<br/>- Dataset Stats"]
-            Ingestion["📤 Ingestion Wizard<br/>ingestion-wizard.ts<br/>- File Upload<br/>- Format Selection<br/>- Target Collection"]
-            Explorer["🔍 Dataset Explorer<br/>dataset-explorer.ts<br/>- Browse Datasets<br/>- Search & Filter"]
-            Powered["ℹ️ Powered By<br/>powered.ts<br/>- Attribution Page"]
-        end
-
-        Router --> Dashboard
-        Router --> Ingestion
-        Router --> Explorer
-        Router --> Powered
-
-        Dashboard --> Layout
-        Ingestion --> Layout
-        Explorer --> Layout
-        Powered --> Layout
-
-        Dashboard --> MAS
-        Ingestion --> MAS
-        Explorer --> MAS
-        SupportBtn --> SMS
-    end
-
-    subgraph "HTTP Communication"
-        HttpClient["@angular/common/http<br/>HttpClient"]
-        Proxy["Proxy Config<br/>proxy.conf.json<br/>/api/* → Backend"]
-    end
-
-    subgraph "External Services"
-        ProdBackend["🔧 Production Backend<br/>https://metadata-harvester-backend<br/>.onrender.com/api/v1"]
-        LocalBackend["🔧 Local Backend<br/>http://localhost:8080/api/v1"]
-    end
-
-    subgraph "API Endpoints"
-        GetDatasets["/datasets"]
-        GetDatasetDetail["/datasets/{id}"]
-        GetMetrics["/metrics/failed-validations/list"]
-        UploadDataset["/ingest"]
-    end
-
-    AppRoot --> Router
-    AppRoot --> Browser
-
-    MAS --> HttpClient
-    HttpClient --> Proxy
-    Proxy --> |Production| ProdBackend
-    Proxy --> |Development| LocalBackend
-
-    ProdBackend --> GetDatasets
-    ProdBackend --> GetDatasetDetail
-    ProdBackend --> GetMetrics
-    ProdBackend --> UploadDataset
-
-    LocalBackend --> GetDatasets
-    LocalBackend --> GetDatasetDetail
-    LocalBackend --> GetMetrics
-    LocalBackend --> UploadDataset
-
-    subgraph "Build & Deploy"
-        Build["Build Pipeline<br/>ng build --configuration production"]
-        Assets["Static Assets<br/>public/"]
-        CDN["CDN/Hosting"]
-    end
-
-    AppRoot --> Build
-    Assets --> Build
-    Build --> CDN
-
-    style AppRoot fill:#2196F3,color:#fff
-    style Dashboard fill:#4CAF50,color:#fff
-    style Ingestion fill:#FF9800,color:#fff
-    style Explorer fill:#9C27B0,color:#fff
-    style MAS fill:#FF5722,color:#fff
-    style ProdBackend fill:#F44336,color:#fff
-    style LocalBackend fill:#FFC107,color:#333
-```
+> _Tip: You can also inspect the raw diagram source code in [ARCHITECTURE.mmd](ARCHITECTURE.mmd)._
 
 ## 📁 Project Structure
 
