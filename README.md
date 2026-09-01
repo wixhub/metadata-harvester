@@ -41,7 +41,9 @@ The project is split into two independent sub-projects:
 
 - **`frontend/`** — Angular 22 Single Page Application providing an administrative dashboard, upload wizards and dataset explorers.
 
-![Metadata Harvester Architecture Diagram](ARCHITECTURE.png)
+<p align="center">
+  <img src="ARCHITECTURE.png" alt="Metadata Harvester Architecture Diagram" width="100%">
+</p>
 
 > _Tip: You can also inspect the raw diagram source code in [ARCHITECTURE.mmd](ARCHITECTURE.mmd)._
 
