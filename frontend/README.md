@@ -1,6 +1,6 @@
 # Ecological Metadata Harvester & Ingestion Gateway (Frontend)
 
-An enterprise-grade, modern Angular administrative dashboard and ingestion wizard designed to interface with the Ecological Metadata Harvester & Ingestion Gateway backend (Spring Boot, PostgreSQL and DSpace-aligned repositories).
+An enterprise-grade Angular administrative dashboard and ingestion wizard. It interfaces directly with the backend ecosystem to manage metadata records, process scientific file uploads and display system telemetry metrics.
 
 ---
 
@@ -12,42 +12,190 @@ An enterprise-grade, modern Angular administrative dashboard and ingestion wizar
 
 ## 🚀 Tech Stack
 
-- Framework: Angular (Standalone Components, Signals, Reactive Forms, Modern Control Flow). This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+- Framework & Core: Angular (Standalone Components, Signals, Reactive Forms, Modern Control Flow) version 22.0.0
 
-- Language: TypeScript
+- UI Components: Angular Material 22.1.3
+
+- Language: TypeScript 6.0.2
 
 - Styling: Global styles.scss with component-scoped SCSS stylesheets
 
-- HTTP/Routing: Angular HttpClient & Router with component input binding
+- State Management & Communication: Angular HttpClient with proxy configuration, reactive signals, and declarative httpResource fetching
 
-## 🌟 Core Features
+- Testing: Vitest 4.0.8
 
-Dashboard & Metrics: Real-time visibility tracking total datasets, successful metadata harvests and anomaly/validation failures.
+## System Architecture
 
-Telemetry Ingestion Wizard: Supports multi-format scientific file uploads including Movebank XML, Darwin Core Archives (DwC-A) and JSON Schemas, mapping them directly to target DSpace collections.
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        Browser["🌐 Browser"]
+    end
 
-Repository Explorer: Inspect harvested metadata records, view structural status and diagnose error payloads.
+    subgraph "Angular Application"
+        AppRoot["App Root<br/>app.ts"]
+        Router["Router<br/>app.routes.ts"]
 
-## 📁 Project Architecture
+        subgraph "Core Layer"
+            Services["Services<br/>────────"]
+            MAS["MetadataApiService<br/>- httpResource reactive state<br/>- Datasets fetch<br/>- Failed validations<br/>- Dataset details"]
+            SMS["SupportMailService<br/>- Email obfuscation<br/>- Clipboard copy<br/>- Mailto handler"]
+
+            Models["Models<br/>────────"]
+            Metadata["metadata.model.ts<br/>- DatasetRecord<br/>- IngestionPayload<br/>- RestPage<br/>- MetadataFormat<br/>- IngestionStatus"]
+
+            Services --> MAS
+            Services --> SMS
+            Models --> Metadata
+        end
+
+        subgraph "Layout Components"
+            Layout["Core Layout"]
+            Footer["Footer Component"]
+            Loader["Loader Component"]
+            SupportBtn["Support Button"]
+            Layout --> Footer
+            Layout --> Loader
+            Layout --> SupportBtn
+        end
+
+        subgraph "Feature Modules"
+            Dashboard["📊 Dashboard<br/>dashboard.ts<br/>- Metrics Grid<br/>- Dataset Stats"]
+            Ingestion["📤 Ingestion Wizard<br/>ingestion-wizard.ts<br/>- File Upload<br/>- Format Selection<br/>- Target Collection"]
+            Explorer["🔍 Dataset Explorer<br/>dataset-explorer.ts<br/>- Browse Datasets<br/>- Search & Filter"]
+            Powered["ℹ️ Powered By<br/>powered.ts<br/>- Attribution Page"]
+        end
+
+        Router --> Dashboard
+        Router --> Ingestion
+        Router --> Explorer
+        Router --> Powered
+
+        Dashboard --> Layout
+        Ingestion --> Layout
+        Explorer --> Layout
+        Powered --> Layout
+
+        Dashboard --> MAS
+        Ingestion --> MAS
+        Explorer --> MAS
+        SupportBtn --> SMS
+    end
+
+    subgraph "HTTP Communication"
+        HttpClient["@angular/common/http<br/>HttpClient"]
+        Proxy["Proxy Config<br/>proxy.conf.json<br/>/api/* → Backend"]
+    end
+
+    subgraph "External Services"
+        ProdBackend["🔧 Production Backend<br/>https://metadata-harvester-backend<br/>.onrender.com/api/v1"]
+        LocalBackend["🔧 Local Backend<br/>http://localhost:8080/api/v1"]
+    end
+
+    subgraph "API Endpoints"
+        GetDatasets["/datasets"]
+        GetDatasetDetail["/datasets/{id}"]
+        GetMetrics["/metrics/failed-validations/list"]
+        UploadDataset["/ingest"]
+    end
+
+    AppRoot --> Router
+    AppRoot --> Browser
+
+    MAS --> HttpClient
+    HttpClient --> Proxy
+    Proxy --> |Production| ProdBackend
+    Proxy --> |Development| LocalBackend
+
+    ProdBackend --> GetDatasets
+    ProdBackend --> GetDatasetDetail
+    ProdBackend --> GetMetrics
+    ProdBackend --> UploadDataset
+
+    LocalBackend --> GetDatasets
+    LocalBackend --> GetDatasetDetail
+    LocalBackend --> GetMetrics
+    LocalBackend --> UploadDataset
+
+    subgraph "Build & Deploy"
+        Build["Build Pipeline<br/>ng build --configuration production"]
+        Assets["Static Assets<br/>public/"]
+        CDN["CDN/Hosting"]
+    end
+
+    AppRoot --> Build
+    Assets --> Build
+    Build --> CDN
+
+    style AppRoot fill:#2196F3,color:#fff
+    style Dashboard fill:#4CAF50,color:#fff
+    style Ingestion fill:#FF9800,color:#fff
+    style Explorer fill:#9C27B0,color:#fff
+    style MAS fill:#FF5722,color:#fff
+    style ProdBackend fill:#F44336,color:#fff
+    style LocalBackend fill:#FFC107,color:#333
+```
+
+## 📁 Project Structure
 
 ```text
 src/
 ├── app/
 │   ├── core/
 │   │   ├── models/
-│   │   │   └── metadata.model.ts      # TypeScript interfaces & types
+│   │   │   └── metadata.model.ts      # TypeScript interfaces & types (DatasetRecord, IngestionPayload, etc.)
 │   │   └── services/
-│   │       └── metadata-api.service.ts  # REST API gateway integration
+│   │       ├── metadata-api.service.ts # REST API gateway integration using httpResource
+│   │       └── support-mail.service.ts # Email obfuscation, clipboard copy, and mailto handling
 │   ├── features/
 │   │   ├── dashboard/                 # System metrics & recent ingestion logs
 │   │   ├── ingestion/                 # Multi-format telemetry upload wizard
-│   │   └── explorer/                  # DSpace collection/item repository explorer
+│   │   ├── explorer/                  # DSpace collection/item repository explorer
+│   │   └── powered/                   # Attribution and credits page
 │   ├── app.component.ts
-│   ├── app.config.ts                    # Global app providers & HttpClient setup
-│   └── app.routes.ts                    # Lazy/direct route definitions
+│   ├── app.config.ts                  # Global app providers & HttpClient setup
+│   └── app.routes.ts                  # Lazy/direct route definitions
 ├── index.html
-└── styles.scss                          # Global root SCSS styles & variables
+└── styles.scss                        # Global root CSS styles & variables
 ```
+
+## 🌟 Core Features & Routes
+
+- / — Dashboard: Real-time visibility tracking total datasets, successful metadata harvests, and validation error statistics.
+
+- /ingest — Ingestion Wizard: Supports multi-format scientific file uploads including Movebank XML, Darwin Core Archives (DwC-A), and JSON Schemas, mapping them directly to target collections.
+
+- /explorer — Dataset Explorer: Inspect harvested metadata records, view structural status, search, filter, and diagnose error payloads.
+
+- /powered — Powered By: Attribution and technology credits page.
+
+## Data Flow & State Management
+
+The application leverages Angular's modern reactivity primitives:
+
+```Plaintext
+User Action → Router → Feature Component → Service → HttpClient → Proxy → Backend API → Response → HttpResource → Signal → Template
+```
+
+- Reactive Signals: Built-in signal() handles component-level local state.
+
+- HttpResource: Provides declarative, reactive resource fetching for asynchronous API data integration.
+
+- RxJS: Manages complex asynchronous event streams where applicable.
+
+### 🔗 **API Endpoints**
+
+| Method | Endpoint                                  | Purpose                 |
+| ------ | ----------------------------------------- | ----------------------- |
+| GET    | `/api/v1/datasets`                        | Fetch all datasets      |
+| GET    | `/api/v1/datasets/{id}`                   | Fetch dataset details   |
+| GET    | `/api/v1/metrics/failed-validations/list` | Get validation failures |
+| POST   | `/api/v1/ingest`                          | Upload new dataset      |
+
+### 🌍 **Environment Configuration**
+
+- **Production**: `https://metadata-harvester-backend.onrender.com/api/v1`
+- **Development**: `http://localhost:8080/api/v1`
 
 ---
 

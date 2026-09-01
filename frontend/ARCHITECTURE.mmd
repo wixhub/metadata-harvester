@@ -1,0 +1,103 @@
+graph TB
+    subgraph "Application Root"
+        App["<b>App</b><br/>selector: app-root<br/>RouterOutlet"]
+    end
+
+    subgraph "Routing Configuration"
+        Router["<b>Routes</b><br/>Path: '' → Dashboard<br/>Path: 'ingest' → IngestionWizard<br/>Path: 'explorer' → DatasetExplorer<br/>Path: '**' → redirect to ''"]
+    end
+
+    subgraph "Layout Components"
+        Footer["<b>Footer</b><br/>selector: app-footer"]
+        SupportBtn["<b>SupportBtn</b><br/>selector: app-support-btn"]
+        Loader["<b>Loader</b><br/>selector: app-loader<br/>wakeUpCountdown: input<br/>facts: signal<br/>currentIndex: signal"]
+        
+        Footer -->|imports| SupportBtn
+    end
+
+    subgraph "Feature Modules"
+        Dashboard["<b>Dashboard</b><br/>Route: ''<br/>- displayedColumns<br/>- dataSource: MatTableDataSource<br/>- datasets: signal<br/>- failedDatasets: signal"]
+        
+        IngestionWizard["<b>IngestionWizard</b><br/>Route: 'ingest'<br/>- form: FormGroup<br/>- uploading: signal<br/>- uploadProgress: signal<br/>- selectedFile: signal<br/>- errorMessage: signal"]
+        
+        DatasetExplorer["<b>DatasetExplorer</b><br/>Route: 'explorer'<br/>- datasets: signal"]
+        
+        MetricsGrid["<b>MetricsGrid</b><br/>selector: app-metrics-grid<br/>Component: Sub-component<br/>of Dashboard"]
+        
+        Dashboard -->|imports| MetricsGrid
+    end
+
+    subgraph "Core Services"
+        MetadataApiService["<b>MetadataApiService</b><br/>@Service<br/>- datasetsResource: httpResource<br/>- failedDatasetsResource: httpResource<br/>- datasetDetailsResource: httpResource<br/>- selectedDatasetId: signal"]
+        
+        SupportMailService["<b>SupportMailService</b><br/>@Service<br/>- user: string<br/>- domain: string<br/>- getEmail(): string<br/>- handleContact(): Promise<boolean>"]
+    end
+
+    subgraph "Data Models & Types"
+        Metadata["<b>metadata.model.ts</b><br/>Types:<br/>- MetadataFormat<br/>- IngestionStatus<br/>- CardType<br/><br/>Interfaces:<br/>- DatasetRecord<br/>- IngestionPayload<br/>- RestPage<T>"]
+        
+        AnimalFacts["<b>Animal Facts</b><br/>public/data/animal-facts.json<br/>Type: AnimalFact[]"]
+    end
+
+    subgraph "HTTP & External"
+        HttpClient["<b>HttpClient</b><br/>Angular Common HTTP"]
+        Environment["<b>Environment Config</b><br/>environment.apiUrl<br/>environment.development"]
+    end
+
+    subgraph "Angular Material Components"
+        MatTable["MatTable, MatSort<br/>MatTableModule, MatSortModule"]
+        MatForms["Reactive Forms<br/>FormBuilder, ReactiveFormsModule"]
+        MatCDK["Angular CDK<br/>Signals, Reactive Utilities"]
+    end
+
+    %% Connections
+    App -->|Routes to| Dashboard
+    App -->|Routes to| IngestionWizard
+    App -->|Routes to| DatasetExplorer
+    
+    App -->|Contains| Footer
+    App -->|Contains| Loader
+    
+    Dashboard -->|Imports| Footer
+    Dashboard -->|Imports| Loader
+    Dashboard -->|Imports| MatTable
+    Dashboard -->|Uses| MetadataApiService
+    
+    IngestionWizard -->|Uses| MetadataApiService
+    IngestionWizard -->|Uses| MatForms
+    
+    DatasetExplorer -->|Uses| MetadataApiService
+    
+    SupportBtn -->|Uses| SupportMailService
+    
+    MetadataApiService -->|Injects| HttpClient
+    MetadataApiService -->|Uses| Environment
+    MetadataApiService -->|Returns| Metadata
+    
+    Loader -->|Loads| AnimalFacts
+    
+    Dashboard -->|Consumes| Metadata
+    IngestionWizard -->|Consumes| Metadata
+    DatasetExplorer -->|Consumes| Metadata
+    
+    Loader -->|Uses| MatCDK
+    Dashboard -->|Uses| MatCDK
+    
+    style App fill:#4A90E2,stroke:#2E5C8A,color:#fff,stroke-width:2px
+    style Router fill:#50C878,stroke:#2D7A4A,color:#fff,stroke-width:2px
+    style Dashboard fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style IngestionWizard fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style DatasetExplorer fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style MetricsGrid fill:#8B4789,stroke:#5C2E5A,color:#fff
+    style Footer fill:#E67E22,stroke:#A85A1A,color:#fff
+    style SupportBtn fill:#E67E22,stroke:#A85A1A,color:#fff
+    style Loader fill:#E67E22,stroke:#A85A1A,color:#fff
+    style MetadataApiService fill:#E74C3C,stroke:#A93226,color:#fff,stroke-width:2px
+    style SupportMailService fill:#E74C3C,stroke:#A93226,color:#fff
+    style Metadata fill:#F39C12,stroke:#B8860B,color:#fff
+    style AnimalFacts fill:#F39C12,stroke:#B8860B,color:#fff
+    style HttpClient fill:#3498DB,stroke:#1F5A96,color:#fff
+    style Environment fill:#3498DB,stroke:#1F5A96,color:#fff
+    style MatTable fill:#16A085,stroke:#117A65,color:#fff
+    style MatForms fill:#16A085,stroke:#117A65,color:#fff
+    style MatCDK fill:#16A085,stroke:#117A65,color:#fff

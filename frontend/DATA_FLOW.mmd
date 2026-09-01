@@ -1,0 +1,94 @@
+graph LR
+    subgraph "User Interaction"
+        User["👤 User"]
+    end
+
+    subgraph "Presentation Layer"
+        Dashboard["Dashboard Feature<br/>- View All Datasets<br/>- Sort & Filter<br/>- View Failed Validations"]
+        IngestionWizard["Ingestion Wizard<br/>- Select Format<br/>- Choose File<br/>- Upload & Monitor"]
+        DatasetExplorer["Dataset Explorer<br/>- Browse Datasets<br/>- View Details"]
+    end
+
+    subgraph "Component Layer"
+        MetricsGrid["Metrics Grid<br/>- Display Stats<br/>- Card UI"]
+        Footer["Footer<br/>- Support Contact"]
+        Loader["Loader<br/>- Fun Facts<br/>- Progress Indicator"]
+    end
+
+    subgraph "Service Layer"
+        MetadataApiService["MetadataApiService<br/>Reactive Resources:<br/>- datasetsResource<br/>- failedDatasetsResource<br/>- datasetDetailsResource<br/>- metricsCountResource"]
+        SupportMailService["SupportMailService<br/>- Email Management<br/>- Clipboard Copy"]
+    end
+
+    subgraph "Data Access Layer"
+        HttpClient["HttpClient<br/>Declarative HTTP<br/>with httpResource"]
+        ResourceDeclaration["Resource Declarations<br/>Automatic:<br/>- Caching<br/>- Parsing<br/>- Error Handling"]
+    end
+
+    subgraph "Backend API"
+        BackendAPI["Backend API<br/>Endpoints:<br/>GET /datasets<br/>GET /datasets/:id<br/>GET /metrics/failed-validations<br/>POST /datasets/upload<br/>GET /metrics"]
+    end
+
+    subgraph "Data Models"
+        DatasetRecord["DatasetRecord<br/>id, title, format<br/>status, recordCount<br/>updatedAt"]
+        IngestionPayload["IngestionPayload<br/>format, file<br/>targetCollection"]
+        MetricsData["Metrics Data<br/>total, success<br/>failed counts"]
+    end
+
+    %% User interactions
+    User -->|Navigates| Dashboard
+    User -->|Navigates| IngestionWizard
+    User -->|Navigates| DatasetExplorer
+    User -->|Clicks Support| Footer
+    User -->|Uploads File| IngestionWizard
+
+    %% Component data flow
+    Dashboard -->|Subscribes| MetricsGrid
+    Dashboard -->|Displays| Loader
+    Dashboard -->|Shows| Footer
+
+    IngestionWizard -->|Validates Form| MetadataApiService
+    IngestionWizard -->|Uploads via| MetadataApiService
+    IngestionWizard -->|Shows Progress| Loader
+
+    DatasetExplorer -->|Queries| MetadataApiService
+
+    Footer -->|Contacts Support| SupportMailService
+
+    %% Service to API
+    MetadataApiService -->|Declares httpResource| ResourceDeclaration
+    ResourceDeclaration -->|Executes HTTP| HttpClient
+
+    %% Backend communication
+    HttpClient -->|GET/POST| BackendAPI
+
+    %% API responses
+    BackendAPI -->|Returns JSON| DatasetRecord
+    BackendAPI -->|Returns JSON| MetricsData
+
+    %% Data binding
+    MetadataApiService -->|Reactive Signals| Dashboard
+    MetadataApiService -->|Reactive Signals| DatasetExplorer
+    MetadataApiService -->|Upload Tracking| IngestionWizard
+
+    %% Model usage
+    MetadataApiService -->|Uses| DatasetRecord
+    MetadataApiService -->|Uses| IngestionPayload
+    MetadataApiService -->|Uses| MetricsData
+
+    %% Styling
+    style User fill:#FF6B6B,stroke:#C92A2A,color:#fff
+    style Dashboard fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style IngestionWizard fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style DatasetExplorer fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    style MetricsGrid fill:#8B4789,stroke:#5C2E5A,color:#fff
+    style Footer fill:#E67E22,stroke:#A85A1A,color:#fff
+    style Loader fill:#E67E22,stroke:#A85A1A,color:#fff
+    style MetadataApiService fill:#E74C3C,stroke:#A93226,color:#fff,stroke-width:2px
+    style SupportMailService fill:#E74C3C,stroke:#A93226,color:#fff
+    style HttpClient fill:#3498DB,stroke:#1F5A96,color:#fff
+    style ResourceDeclaration fill:#3498DB,stroke:#1F5A96,color:#fff
+    style BackendAPI fill:#27AE60,stroke:#1A5E3F,color:#fff,stroke-width:2px
+    style DatasetRecord fill:#F39C12,stroke:#B8860B,color:#fff
+    style IngestionPayload fill:#F39C12,stroke:#B8860B,color:#fff
+    style MetricsData fill:#F39C12,stroke:#B8860B,color:#fff

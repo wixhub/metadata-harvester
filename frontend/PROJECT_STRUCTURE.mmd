@@ -1,0 +1,218 @@
+graph TD
+    subgraph "Project Root"
+        PkgJson["📄 package.json<br/>Angular 22, Material 22<br/>Standalone Components"]
+        AngularJson["📄 angular.json<br/>Build Configuration"]
+        TsConfig["📄 tsconfig.json<br/>TypeScript Config"]
+        ProxyConf["📄 proxy.conf.json<br/>Dev Server Proxy"]
+    end
+
+    subgraph "Public Assets"
+        PublicDir["📁 public/"]
+        Redirects["📄 _redirects<br/>SPA Routing"]
+        WebManifest["📄 site.webmanifest<br/>PWA Config"]
+        DataDir["📁 data/"]
+        AnimalFactsJSON["📄 animal-facts.json<br/>Loader Data"]
+    end
+
+    subgraph "Source Root - src/"
+        IndexHtml["📄 index.html<br/>Entry Point"]
+        MainTs["📄 main.ts<br/>Bootstrap App"]
+        Styles["📄 styles.scss<br/>Global Styles"]
+    end
+
+    subgraph "App Structure - src/app/"
+        AppComponent["📄 app.ts<br/>Root Component<br/>RouterOutlet"]
+        AppHtml["📄 app.html"]
+        AppScss["📄 app.scss"]
+        AppRoutes["📄 app.routes.ts<br/>Route Configuration"]
+        AppConfig["📄 app.config.ts<br/>App Config"]
+    end
+
+    subgraph "Core Module - src/app/core/"
+        CoreDir["📁 core/"]
+        
+        subgraph "Layout Components"
+            LayoutDir["📁 layout/"]
+            
+            FooterDir["📁 footer/"]
+            FooterTs["📄 footer.ts"]
+            FooterHtml["📄 footer.html"]
+            FooterScss["📄 footer.scss"]
+            FooterSpec["📄 footer.spec.ts"]
+            
+            LoaderDir["📁 loader/"]
+            LoaderTs["📄 loader.ts"]
+            LoaderHtml["📄 loader.html"]
+            LoaderScss["📄 loader.scss"]
+            LoaderSpec["📄 loader.spec.ts"]
+            
+            SupportBtnDir["📁 support-btn/"]
+            SupportBtnTs["📄 support-btn.ts"]
+            SupportBtnHtml["📄 support-btn.html"]
+            SupportBtnScss["📄 support-btn.scss"]
+            SupportBtnSpec["📄 support-btn.spec.ts"]
+            
+            LayoutDir -->|contains| FooterDir
+            LayoutDir -->|contains| LoaderDir
+            LayoutDir -->|contains| SupportBtnDir
+        end
+        
+        subgraph "Services"
+            ServicesDir["📁 services/"]
+            
+            MetadataApiServiceTs["📄 metadata-api.service.ts<br/>@Service<br/>httpResource Declarations"]
+            MetadataApiServiceSpec["📄 metadata-api.service.spec.ts"]
+            
+            SupportMailServiceTs["📄 support-mail.service.ts<br/>@Service<br/>Email Helper"]
+            SupportMailServiceSpec["📄 support-mail.service.spec.ts"]
+            
+            ServicesDir -->|contains| MetadataApiServiceTs
+            ServicesDir -->|contains| MetadataApiServiceSpec
+            ServicesDir -->|contains| SupportMailServiceTs
+            ServicesDir -->|contains| SupportMailServiceSpec
+        end
+        
+        subgraph "Models"
+            ModelsDir["📁 models/"]
+            MetadataModel["📄 metadata.model.ts<br/>TypeScript Types & Interfaces<br/>DatasetRecord<br/>IngestionPayload<br/>IngestionStatus"]
+            
+            ModelsDir -->|contains| MetadataModel
+        end
+        
+        CoreDir -->|contains| LayoutDir
+        CoreDir -->|contains| ServicesDir
+        CoreDir -->|contains| ModelsDir
+    end
+
+    subgraph "Features Module - src/app/features/"
+        FeaturesDir["📁 features/"]
+        
+        subgraph "Dashboard Feature"
+            DashboardDir["📁 dashboard/"]
+            DashboardTs["📄 dashboard.ts"]
+            DashboardHtml["📄 dashboard.html"]
+            DashboardScss["📄 dashboard.scss"]
+            DashboardSpec["📄 dashboard.spec.ts"]
+            
+            ComponentsDir["📁 components/"]
+            MetricsGridDir["📁 metrics-grid/"]
+            MetricsGridTs["📄 metrics-grid.ts"]
+            MetricsGridHtml["📄 metrics-grid.html"]
+            MetricsGridScss["📄 metrics-grid.scss"]
+            MetricsGridSpec["📄 metrics-grid.spec.ts"]
+            
+            ComponentsDir -->|contains| MetricsGridDir
+            DashboardDir -->|contains| DashboardTs
+            DashboardDir -->|contains| ComponentsDir
+        end
+        
+        subgraph "Ingestion Wizard Feature"
+            IngestionDir["📁 ingestion-wizard/"]
+            IngestionTs["📄 ingestion-wizard.ts"]
+            IngestionHtml["📄 ingestion-wizard.html"]
+            IngestionScss["📄 ingestion-wizard.scss"]
+            IngestionSpec["📄 ingestion-wizard.spec.ts"]
+            IngestionDir -->|contains| IngestionTs
+        end
+        
+        subgraph "Dataset Explorer Feature"
+            ExplorerDir["📁 dataset-explorer/"]
+            ExplorerTs["📄 dataset-explorer.ts"]
+            ExplorerHtml["📄 dataset-explorer.html"]
+            ExplorerScss["📄 dataset-explorer.scss"]
+            ExplorerSpec["📄 dataset-explorer.spec.ts"]
+            ExplorerDir -->|contains| ExplorerTs
+        end
+        
+        FeaturesDir -->|contains| DashboardDir
+        FeaturesDir -->|contains| IngestionDir
+        FeaturesDir -->|contains| ExplorerDir
+    end
+
+    subgraph "Environment Config - src/environments/"
+        EnvDir["📁 environments/"]
+        EnvProd["📄 environment.ts<br/>Production Config"]
+        EnvDev["📄 environment.development.ts<br/>Development Config"]
+        
+        EnvDir -->|contains| EnvProd
+        EnvDir -->|contains| EnvDev
+    end
+
+    %% Connections
+    PublicDir -->|contains| DataDir
+    PublicDir -->|contains| Redirects
+    PublicDir -->|contains| WebManifest
+    
+    DataDir -->|contains| AnimalFactsJSON
+    
+    PkgJson -.->|Dependencies| AppComponent
+    AngularJson -.->|Build| AppComponent
+    
+    IndexHtml -->|Renders| AppComponent
+    MainTs -->|Bootstraps| AppComponent
+    
+    AppComponent -->|Uses| AppRoutes
+    AppRoutes -->|Routes to| DashboardTs
+    AppRoutes -->|Routes to| IngestionTs
+    AppRoutes -->|Routes to| ExplorerTs
+    
+    DashboardTs -->|Imports| MetricsGridTs
+    DashboardTs -->|Imports| LoaderTs
+    DashboardTs -->|Imports| FooterTs
+    
+    DashboardTs -->|Injects| MetadataApiServiceTs
+    IngestionTs -->|Injects| MetadataApiServiceTs
+    ExplorerTs -->|Injects| MetadataApiServiceTs
+    
+    SupportBtnTs -->|Injects| SupportMailServiceTs
+    FooterTs -->|Imports| SupportBtnTs
+    
+    MetadataApiServiceTs -->|Uses| MetadataModel
+    IngestionTs -->|Uses| MetadataModel
+    DashboardTs -->|Uses| MetadataModel
+    
+    LoaderTs -->|Loads| AnimalFactsJSON
+    
+    AppComponent -->|Global Styles| Styles
+
+    %% Styling
+    style PkgJson fill:#2ECC71,stroke:#27AE60,color:#fff
+    style AngularJson fill:#2ECC71,stroke:#27AE60,color:#fff
+    style TsConfig fill:#2ECC71,stroke:#27AE60,color:#fff
+    style ProxyConf fill:#2ECC71,stroke:#27AE60,color:#fff
+    
+    style PublicDir fill:#3498DB,stroke:#2980B9,color:#fff
+    style DataDir fill:#3498DB,stroke:#2980B9,color:#fff
+    style AnimalFactsJSON fill:#5DADE2,stroke:#2E86DE,color:#fff
+    
+    style AppComponent fill:#E74C3C,stroke:#A93226,color:#fff,stroke-width:2px
+    style AppRoutes fill:#E74C3C,stroke:#A93226,color:#fff
+    
+    style CoreDir fill:#F39C12,stroke:#BA4A00,color:#fff,stroke-width:2px
+    style LayoutDir fill:#F5B041,stroke:#BA4A00,color:#fff
+    style ServicesDir fill:#F5B041,stroke:#BA4A00,color:#fff
+    style ModelsDir fill:#F5B041,stroke:#BA4A00,color:#fff
+    
+    style FooterTs fill:#E67E22,stroke:#A85A1A,color:#fff
+    style LoaderTs fill:#E67E22,stroke:#A85A1A,color:#fff
+    style SupportBtnTs fill:#E67E22,stroke:#A85A1A,color:#fff
+    
+    style MetadataApiServiceTs fill:#9B59B6,stroke:#6C3A7C,color:#fff,stroke-width:2px
+    style SupportMailServiceTs fill:#9B59B6,stroke:#6C3A7C,color:#fff
+    
+    style MetadataModel fill:#8E44AD,stroke:#5B2C6F,color:#fff
+    
+    style FeaturesDir fill:#16A085,stroke:#117A65,color:#fff,stroke-width:2px
+    style DashboardDir fill:#1ABC9C,stroke:#0E6251,color:#fff
+    style IngestionDir fill:#1ABC9C,stroke:#0E6251,color:#fff
+    style ExplorerDir fill:#1ABC9C,stroke:#0E6251,color:#fff
+    
+    style DashboardTs fill:#48C9B0,stroke:#117A65,color:#fff
+    style IngestionTs fill:#48C9B0,stroke:#117A65,color:#fff
+    style ExplorerTs fill:#48C9B0,stroke:#117A65,color:#fff
+    
+    style MetricsGridTs fill:#48C9B0,stroke:#117A65,color:#fff
+    
+    style EnvDir fill:#34495E,stroke:#2C3E50,color:#fff
+    style EnvProd fill:#566573,stroke:#2C3E50,color:#fff
+    style EnvDev fill:#566573,stroke:#2C3E50,color:#fff

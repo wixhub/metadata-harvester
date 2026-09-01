@@ -1,0 +1,145 @@
+graph TB
+    subgraph "Component Dependencies"
+        subgraph "Root Component"
+            App["App<br/>imports:<br/>RouterOutlet"]
+        end
+
+        subgraph "Feature Components"
+            Dashboard["Dashboard<br/>imports:<br/>RouterLink<br/>DatePipe<br/>MatTableModule<br/>MatSortModule<br/>Loader<br/>MetricsGrid<br/>Footer"]
+            
+            IngestionWizard["IngestionWizard<br/>imports:<br/>ReactiveFormsModule<br/>RouterLink"]
+            
+            DatasetExplorer["DatasetExplorer<br/>imports:<br/>RouterLink"]
+        end
+
+        subgraph "Layout Components"
+            Footer["Footer<br/>imports:<br/>SupportBtn"]
+            
+            SupportBtn["SupportBtn<br/>Uses:<br/>SupportMailService"]
+            
+            Loader["Loader<br/>Loads:<br/>animal-facts.json<br/>Signals:<br/>wakeUpCountdown<br/>facts<br/>currentIndex"]
+            
+            MetricsGrid["MetricsGrid<br/>Sub-component<br/>of Dashboard<br/>Receives:<br/>metrics data"]
+        end
+
+        subgraph "Shared Services"
+            MetadataApiService["MetadataApiService<br/>@Service<br/><br/>Provides:<br/>datasetsResource<br/>failedDatasetsResource<br/>datasetDetailsResource<br/>metricsCountResource<br/><br/>Methods:<br/>uploadDataset<br/>selectDataset"]
+            
+            SupportMailService["SupportMailService<br/>@Service<br/><br/>Methods:<br/>getEmail<br/>handleContact"]
+        end
+
+        subgraph "Angular Material Modules"
+            MatTable["MatTableModule<br/>MatSortModule"]
+            MatCDK["@angular/cdk<br/>Signals<br/>httpResource"]
+            ReactiveFormsModule["ReactiveFormsModule<br/>FormBuilder"]
+            CommonModule["CommonModule<br/>DatePipe<br/>RouterModule"]
+        end
+
+        subgraph "Data & Config"
+            MetadataModel["metadata.model.ts<br/>DatasetRecord<br/>IngestionPayload<br/>IngestionStatus<br/>MetadataFormat"]
+            
+            Environment["environment.ts<br/>environment.development.ts<br/><br/>Config:<br/>apiUrl"]
+            
+            AnimalFactsData["animal-facts.json<br/>AnimalFact[]"]
+        end
+
+        subgraph "External Libraries"
+            Angular["Angular 22 Core<br/>@angular/core<br/>@angular/router<br/>@angular/common"]
+            
+            AngularMaterial["Angular Material 22<br/>@angular/material"]
+            
+            RxJS["RxJS 7.8<br/>Observable<br/>HttpEvent"]
+            
+            TypeScript["TypeScript 6.0<br/>Strict Mode"]
+        end
+
+        subgraph "HTTP & Backend"
+            HttpClient["HttpClient<br/>@angular/common/http"]
+            BackendAPI["Backend API<br/>GET /datasets<br/>GET /datasets/:id<br/>POST /datasets/upload<br/>GET /metrics<br/>GET /metrics/failed-validations"]
+        end
+    end
+
+    %% Component imports
+    App -->|imports| Dashboard
+    App -->|imports| IngestionWizard
+    App -->|imports| DatasetExplorer
+
+    Dashboard -->|imports| MetricsGrid
+    Dashboard -->|imports| Loader
+    Dashboard -->|imports| Footer
+    Dashboard -->|imports| MatTable
+    Dashboard -->|imports| CommonModule
+
+    IngestionWizard -->|imports| ReactiveFormsModule
+    IngestionWizard -->|imports| CommonModule
+
+    DatasetExplorer -->|imports| CommonModule
+
+    Footer -->|imports| SupportBtn
+
+    SupportBtn -->|injects| SupportMailService
+
+    %% Service injection
+    Dashboard -->|injects| MetadataApiService
+    IngestionWizard -->|injects| MetadataApiService
+    DatasetExplorer -->|injects| MetadataApiService
+
+    %% Component to model
+    Dashboard -->|uses| MetadataModel
+    IngestionWizard -->|uses| MetadataModel
+    DatasetExplorer -->|uses| MetadataModel
+
+    MetadataApiService -->|uses| MetadataModel
+    MetadataApiService -->|uses| Environment
+
+    %% External library dependencies
+    Dashboard -->|uses| AngularMaterial
+    Dashboard -->|uses| MatCDK
+    
+    IngestionWizard -->|uses| ReactiveFormsModule
+
+    MetadataApiService -->|uses| HttpClient
+    MetadataApiService -->|uses| RxJS
+
+    SupportMailService -->|uses| Angular
+
+    Loader -->|loads| AnimalFactsData
+
+    MetadataApiService -->|communicates with| BackendAPI
+
+    %% Framework dependencies
+    Angular -->|provides| HttpClient
+    Angular -->|provides| Angular
+    AngularMaterial -->|depends on| MatCDK
+    MetadataApiService -->|uses| TypeScript
+
+    %% Styling
+    style App fill:#FF6B6B,stroke:#C92A2A,color:#fff,stroke-width:3px
+    style Dashboard fill:#9B59B6,stroke:#6C3A7C,color:#fff,stroke-width:2px
+    style IngestionWizard fill:#9B59B6,stroke:#6C3A7C,color:#fff,stroke-width:2px
+    style DatasetExplorer fill:#9B59B6,stroke:#6C3A7C,color:#fff,stroke-width:2px
+    
+    style Footer fill:#E67E22,stroke:#A85A1A,color:#fff
+    style SupportBtn fill:#E67E22,stroke:#A85A1A,color:#fff
+    style Loader fill:#E67E22,stroke:#A85A1A,color:#fff
+    style MetricsGrid fill:#D68910,stroke:#7D3C0D,color:#fff
+    
+    style MetadataApiService fill:#E74C3C,stroke:#A93226,color:#fff,stroke-width:2px
+    style SupportMailService fill:#E74C3C,stroke:#A93226,color:#fff,stroke-width:2px
+    
+    style MatTable fill:#16A085,stroke:#117A65,color:#fff
+    style MatCDK fill:#16A085,stroke:#117A65,color:#fff
+    style ReactiveFormsModule fill:#16A085,stroke:#117A65,color:#fff
+    style CommonModule fill:#16A085,stroke:#117A65,color:#fff
+    
+    style MetadataModel fill:#F39C12,stroke:#B8860B,color:#fff
+    style Environment fill:#F39C12,stroke:#B8860B,color:#fff
+    style AnimalFactsData fill:#F39C12,stroke:#B8860B,color:#fff
+    
+    style Angular fill:#3498DB,stroke:#1F5A96,color:#fff
+    style AngularMaterial fill:#3498DB,stroke:#1F5A96,color:#fff
+    style RxJS fill:#3498DB,stroke:#1F5A96,color:#fff
+    style TypeScript fill:#3498DB,stroke:#1F5A96,color:#fff
+    
+    style HttpClient fill:#27AE60,stroke:#1A5E3F,color:#fff
+    style BackendAPI fill:#27AE60,stroke:#1A5E3F,color:#fff,stroke-width:2px
