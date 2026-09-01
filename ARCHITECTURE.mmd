@@ -1,0 +1,10 @@
+flowchart LR
+  Browser --> FE
+  FE --> BE
+  BE --> PG
+  BE --> DSPACE
+  PG --> DATASETS
+  BE --> LOGS
+
+  DATASETS[(datasets)]
+  LOGS[(provenance_logs)]

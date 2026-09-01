@@ -20,15 +20,21 @@ Currently, the application runs in an isolated sandbox environment. All processe
 
 🔗 **[View Live Application on Cloudflare Pages](https://metadata-harvester.pages.dev)**
 
----
+![Ecological Metadata Harvester Dashboard](image.png)
 
 ## 🏛️ Project Architecture
+
+The high-level system architecture illustrates the data flow from the browser and frontend presentation layer down to the Spring Boot REST backend, asynchronous processing pipelines and persistent storage layers (PostgreSQL, DSpace and local metadata repositories).
 
 The project is split into two independent sub-projects:
 
 - **`backend/`** — Spring Boot REST API responsible for database management (Flyway, JPA), file validation pipelines and data storage.
 
 - **`frontend/`** — Angular 22 Single Page Application providing an administrative dashboard, upload wizards and dataset explorers.
+
+![Metadata Harvester Architecture Diagram](ARCHITECTURE.png")
+
+> _Tip: You can also inspect the raw diagram source code in [ARCHITECTURE.mmd](ARCHITECTURE.mmd)._
 
 ---
 
