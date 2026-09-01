@@ -89,5 +89,5 @@ If you have any questions, suggestions or feedback regarding this project, feel 
 
 This project is open-source and available under the [MIT License](LICENSE).
 
-- **Data & Map Attribution**:
+- **Data Attribution**:
   - Animal tracking data provided by **[Movebank](www.movebank.org)** and individual researchers.
