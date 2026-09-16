@@ -1,0 +1,33 @@
+name: Render Mermaid diagrams
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Render PNG
+        run: mmdc -i docs/architecture.mmd -o docs/architecture.png
+
+      - name: Render SVG
+        run: mmdc -i docs/architecture.mmd -o docs/architecture.svg
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-diagrams
+          path: |
+            docs/architecture.png
+            docs/architecture.svg

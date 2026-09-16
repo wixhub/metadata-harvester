@@ -1,0 +1,67 @@
+%% Architecture diagram for metadata-harvester backend
+
+flowchart LR
+  subgraph Backend["Backend (Spring Boot)"]
+    direction TB
+    BA["BackendApplication\n(Spring Boot entry)"]
+    BA --> Controllers
+
+    subgraph Controllers[Controllers]
+      Ingestion["IngestionController\n(/api/v1/ingest, /datasets)"]
+      Metrics["MetricsController\n(/api/v1/metrics)"]
+      Provenance["ProvenanceController\n(/api/v1/provenance)"]
+      RenderWake["RenderWakeUpController\n(/api/v1/wake-up)"]
+      Root["RootController\n(/ -> Swagger)"]
+    end
+
+    Controllers --> Services
+
+    subgraph Services[Services & Validators]
+      IngestionSvc["IngestionService\n(processIngestion)"]
+      DSpaceIface["DSpaceService (interface)"]
+      RealDSpace["RealDSpaceService\n(DSpace REST integration)"]
+      MockDSpace["MockDSpaceService\n(testing/mock)"]
+      Validator["DatasetValidator\n(file validation)"]
+    end
+
+    Services --> Repositories
+
+    subgraph Repositories[Repositories / Persistence]
+      DatasetRepo["DatasetRepository\n(JPA)"]
+      ProvRepo["ProvenanceLogRepository\n(JPA)"]
+    end
+
+    Repositories --> DB[(Postgres / RDBMS)]
+
+    Ingestion -->|calls| IngestionSvc
+    IngestionSvc -->|uses| Validator
+    IngestionSvc -->|pushes to| DSpaceIface
+    DSpaceIface --> RealDSpace
+    DSpaceIface --> MockDSpace
+    IngestionSvc -->|saves| DatasetRepo
+    IngestionSvc -->|logs events to| ProvRepo
+
+    Metrics -->|reads| ProvRepo
+    Provenance -->|reads| ProvRepo
+    Root -->|redirects to| Swagger["Swagger UI (static)"]
+
+    Config["Config: WebConfig, DSpaceApiProperties"]
+    ExceptionHandler["GlobalExceptionHandler"]
+    Resources["resources: application.yml, templates, static"]
+
+    Config --> Controllers
+    Config --> Services
+    ExceptionHandler --> Controllers
+    Resources --> Swagger
+  end
+
+  %% External integrations / infra
+  ExternalDSpace["External: DSpace REST API"]
+  ExternalDSpace -->|HTTP| RealDSpace
+
+  Migrations["DB migrations: V1__init_schema.sql"] --> DB
+  Docker["Dockerfile / Hosting (Render) / CI"] --> Backend
+
+  classDef ext fill:#f9f,stroke:#333,stroke-width:1px;
+  class ExternalDSpace ext;
+  class DB ext;
