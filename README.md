@@ -29,7 +29,7 @@ Currently, the application runs in an isolated sandbox environment. All processe
 
 🔗 **[View Live Application on Cloudflare Pages](https://metadata-harvester.pages.dev)**
 
-![Ecological Metadata Harvester Dashboard](image.png)
+![Ecological Metadata Harvester Dashboard](main_page.png)
 
 ## 🏛️ Project Architecture
 
@@ -39,7 +39,11 @@ The project is split into two independent sub-projects:
 
 - **`backend/`** — Spring Boot REST API responsible for database management (Flyway, JPA), file validation pipelines and data storage.
 
+> **Notice:** This repository is no longer actively maintained. The backend project has been migrated to an [Eco Engine](https://github.com/wixhub/ecoengine).
+
 - **`frontend/`** — Angular 22 Single Page Application providing an administrative dashboard, upload wizards and dataset explorers.
+
+> **Notice:** This repository is no longer actively maintained. The frontend project has been migrated to a [NX monorepo Eco System](https://github.com/wixhub/ecosystem).
 
 <p align="center">
   <img src="ARCHITECTURE.png" alt="Metadata Harvester Architecture Diagram" width="100%">
